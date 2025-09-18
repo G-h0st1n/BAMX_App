@@ -10,8 +10,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen 
-          name="Films" 
-          component={GhibliList} 
+          //
         />
         <Stack.Screen 
           name="Detail" 
