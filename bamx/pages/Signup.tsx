@@ -1,28 +1,33 @@
-import "./../styles/Signup"
+import { View, TextInput , Text} from "react-native";
+
+import styles from "./../styles/Signup"
 
 function Signup(){
     return(
-        <div>
-            <h1> SIGN UP </h1>
-            <form>
+        <View>
+            <View style={styles.container}>
+            <Text style={styles.title}>SIGN UP</Text>
 
-                <label>Nombre</label>
-                <input type="text" placeholder="Ingrese su nombre"/>    
+            <Text>Nombre</Text>
+            <TextInput placeholder="Ingrese su nombre" style={styles.input} />
 
-                <label>Apellido</label>
-                <input type="text" placeholder="Ingrese su apellido"/>
+            <Text>Apellido</Text>
+            <TextInput placeholder="Ingrese su apellido" style={styles.input} />
 
-                <label>Correo</label>
-                <input type="text" placeholder="Ingrese su correo"/>    
+            <Text>Correo</Text>
+            <TextInput placeholder="Ingrese su correo" style={styles.input} />
 
-                <label>Usuario</label>
-                <input type="text" placeholder="Ingrese su usuario"/>
+            <Text>Usuario</Text>
+            <TextInput placeholder="Ingrese su usuario" style={styles.input} />
 
-                <label>Contraseña</label>
-                <input type="text" placeholder="Ingrese su contraseña"/>           
-                
-            </form>
-        </div>
+            <Text>Contraseña</Text>
+            <TextInput 
+                placeholder="Ingrese su contraseña" 
+                secureTextEntry={true} 
+                style={styles.input} 
+            />
+        </View>
+        </View>
 
     )
 

@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Text, ActivityIndicator, Image } from "react-native";
+import { View, StyleSheet, Text, ActivityIndicator, Image, Button} from "react-native";
 
-export default function Homepage(){
+export default function Homepage({navigation}: any){
    
-    
-
     return(
         <View style={[
             HomeStyle.colceta,
             {
-                flexDirection: 'row'
+                flexDirection: 'column'
             }
         ]}>
-
-
+            <Button
+                title="Sign Up"
+                onPress={() => {
+                    navigation.navigate("Signup")
+                }}
+            />
         </View>
     )
 }

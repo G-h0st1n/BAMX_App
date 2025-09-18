@@ -7,7 +7,7 @@ import Colectapage from "./pages/Colectapage"
 import Homepage from "./pages/Homepage"
 //import Login from "./pages/Login"
 //import LogSign from "./pages/LogSign"
-//import Signup from "./pages/Signup"
+import Signup from "./pages/Signup"
 import Userpage from "./pages/Userpage"
 
 const Stack = createNativeStackNavigator();
@@ -17,25 +17,25 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen 
+          name="Homepage" 
+          component={Homepage} 
+          />
+        <Stack.Screen 
           name="Colectapage"
           component={Colectapage}
         />
-        <Stack.Screen 
-          name="Homepage" 
-          component={Homepage} 
-        />
-  {/*   <Stack.Screen 
+        {/*<Stack.Screen 
           name="Login" 
           component={Login} 
         />
         <Stack.Screen 
           name="LogSign" 
           component={LogSign} 
-        />
+        />*/}
         <Stack.Screen 
           name="Signup" 
           component={Signup} 
-        />*/}
+        />
         <Stack.Screen 
           name="Userpage" 
           component={Userpage} 
