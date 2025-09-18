@@ -5,9 +5,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Colectapage from "./pages/Colectapage"
 import Homepage from "./pages/Homepage"
-import Login from "./pages/Login"
-import LogSign from "./pages/LogSign"
-import Signup from "./pages/Signup"
+//import Login from "./pages/Login"
+//import LogSign from "./pages/LogSign"
+//import Signup from "./pages/Signup"
 import Userpage from "./pages/Userpage"
 
 const Stack = createNativeStackNavigator();
@@ -24,7 +24,7 @@ export default function App() {
           name="Homepage" 
           component={Homepage} 
         />
-        <Stack.Screen 
+  {/*   <Stack.Screen 
           name="Login" 
           component={Login} 
         />
@@ -35,7 +35,7 @@ export default function App() {
         <Stack.Screen 
           name="Signup" 
           component={Signup} 
-        />
+        />*/}
         <Stack.Screen 
           name="Userpage" 
           component={Userpage} 
@@ -49,7 +49,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFAD8',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -3,4 +3,8 @@ import { View, Text, ActivityIndicator, Image } from "react-native";
 
 export default function Userpage(){
 
+
+    return(
+        <View></View>
+    )
 }

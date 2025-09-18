@@ -3,4 +3,7 @@ import { View, Text, ActivityIndicator, Image } from "react-native";
 
 export default function Colectapage(){
 
+    return(
+        <View></View>
+    )
 }
