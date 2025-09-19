@@ -10,6 +10,23 @@ import Homepage from "./pages/Homepage"
 import Signup from "./pages/Signup"
 import Userpage from "./pages/Userpage"
 
+import { initializeApp, getApps } from 'firebase/app';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+
+
+// ===== FIREBASE CONFIG (usa tus .env con EXPO_PUBLIC_*) =====
+const firebaseConfig = {
+  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_APP_ID,
+};
+
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
