@@ -1,31 +1,38 @@
 import "./../styles/Signup"
+import {use, useState} from 'react';
+import {Text, View, Button, Image, TextInput} from 'react-native';
 
-function Signup(){
+export default function Signup(){
     return(
-        <div>
-            <h1> SIGN UP </h1>
+        <View>
+            <h1> CREAR CUENTA </h1>
             <form>
 
-                <label>Nombre</label>
-                <input type="text" placeholder="Ingrese su nombre"/>    
+                <Text>Nombre</Text>
+                <TextInput placeholder="Ingrese su nombre"/>    
 
-                <label>Apellido</label>
-                <input type="text" placeholder="Ingrese su apellido"/>
+                <Text>Apellido</Text>
+                <TextInput placeholder="Ingrese su apellido"/>
 
-                <label>Correo</label>
-                <input type="text" placeholder="Ingrese su correo"/>    
+                <Text>Correo</Text>
+                <TextInput placeholder="Ingrese su correo"/>    
 
-                <label>Usuario</label>
-                <input type="text" placeholder="Ingrese su usuario"/>
+                <Text>Usuario</Text>
+                <TextInput placeholder="Ingrese su usuario"/>
 
-                <label>Contraseña</label>
-                <input type="text" placeholder="Ingrese su contraseña"/>           
+                <Text>Contraseña</Text>
+                <TextInput placeholder="Ingrese su contraseña"/>           
                 
             </form>
-        </div>
+
+        <Button
+            title='Registrarse'
+            onPress={() =>{} }
+        />
+        
+        </View>
 
     )
 
 }
 
-export default Signup;
