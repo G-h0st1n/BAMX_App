@@ -1,17 +1,29 @@
-import {use, useState} from 'react';
+import {useState} from 'react';
 import {Text, View, Button, Image, TextInput} from 'react-native';
 
 export default function Login({navigation}: any){
+    const[email,setEmail] = useState("");
+    const[contraseña, setContraseña] = useState("");
+
     return(
         <View>
-            <h1> INICIAR SESION </h1>
-            <form>
-                <Text>Correo</Text>
-                <TextInput placeholder="Ingrese su correo"/>
+            <Text> INICIAR SESION </Text>
+            <Text>CORREO</Text>
+            <TextInput 
+                placeholder='email'
+                onChangeText={text=>{
+                setEmail(text);
+                }}
+            />
 
-                <Text>Contraseña</Text>
-                <TextInput placeholder="Ingrese su contraseña"/> 
-            </form>
+            <Text>Contraseña</Text>
+            <TextInput 
+                placeholder='contraseña'
+                secureTextEntry={true}
+                onChangeText={text=>{
+                setContraseña(text);
+                }}
+            />
 
             <Button
                 title='Registrarse'
