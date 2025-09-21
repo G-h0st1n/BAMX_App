@@ -13,7 +13,7 @@ export default function Homepage({navigation}: any){
             <Button
                 title="Sign Up"
                 onPress={() => {
-                    navigation.navigate("Signup")
+                    navigation.navigate("LogSign")
                 }}
             />
         </View>

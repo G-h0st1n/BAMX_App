@@ -1,7 +1,7 @@
 import {use, useState} from 'react';
 import {Text, View, Button, Image, TextInput} from 'react-native';
 
-export default function Login(){
+export default function Login({navigation}: any){
     return(
         <View>
             <h1> INICIAR SESION </h1>
@@ -15,7 +15,9 @@ export default function Login(){
 
             <Button
                 title='Registrarse'
-                onPress={() =>{} }
+                onPress={() =>{
+                    navigation.navigate("Userpage")
+                } }
             />
 
         </View>

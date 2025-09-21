@@ -2,7 +2,7 @@ import "./../styles/Signup"
 import {use, useState} from 'react';
 import {Text, View, Button, Image, TextInput} from 'react-native';
 
-export default function Signup(){
+export default function Signup({navigation}: any){
     return(
         <View>
             <h1> CREAR CUENTA </h1>
@@ -27,7 +27,9 @@ export default function Signup(){
 
         <Button
             title='Registrarse'
-            onPress={() =>{} }
+            onPress={() =>{
+                navigation.navigate("Userpage")
+            } }
         />
         
         </View>
