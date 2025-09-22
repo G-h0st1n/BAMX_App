@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Text, ActivityIndicator, Image, Button} from "react-native";
+import { View, StyleSheet, Text, ActivityIndicator, Image, Button, Pressable} from "react-native";
 
 export default function Homepage({navigation}: any){
    
@@ -10,12 +10,15 @@ export default function Homepage({navigation}: any){
                 flexDirection: 'column'
             }
         ]}>
-            <Button
-                title="Sign Up"
-                onPress={() => {
-                    navigation.navigate("LogSign")
-                }}
+
+        <Pressable onPress={navigation.navigate("LogSign")}>
+            <Image
+                source={require('../styles/user.png')}
+                style={{width:100, height:100}}
             />
+
+        </Pressable>
+
         </View>
     )
 }

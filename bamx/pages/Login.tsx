@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Text, View, Button, Image, TextInput} from 'react-native';
+import {Text, View, Button, Image, TextInput} from 'react-native';    
 
 export default function Login({navigation}: any){
     const[email,setEmail] = useState("");
@@ -10,7 +10,7 @@ export default function Login({navigation}: any){
             <Text> INICIAR SESION </Text>
             <Text>CORREO</Text>
             <TextInput 
-                placeholder='email'
+                placeholder='Correo'
                 onChangeText={text=>{
                 setEmail(text);
                 }}
@@ -18,7 +18,7 @@ export default function Login({navigation}: any){
 
             <Text>Contraseña</Text>
             <TextInput 
-                placeholder='contraseña'
+                placeholder='Contraseña'
                 secureTextEntry={true}
                 onChangeText={text=>{
                 setContraseña(text);

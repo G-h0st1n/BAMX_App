@@ -3,27 +3,50 @@ import {useState} from 'react';
 import {Text, View, Button, Image, TextInput} from 'react-native';
 
 export default function Signup({navigation}: any){
+    const[email,setEmail] = useState("");
+    const[contraseña, setContraseña] = useState("");
+    const[name,setName] = useState("");
+    const[apellido, setApellido] = useState("");
+    const[user, setUser] = useState("");
+
     return(
         <View>
             <Text> CREAR CUENTA </Text>
-            <form>
 
-                <Text>Nombre</Text>
-                <input type="text" placeholder="Ingrese su nombre"/>    
+            <Text>Nombre</Text>
+            <TextInput 
+            placeholder='Nombre'
+            onChangeText={text=>{
+                setName(text);
+            }}/>
 
-                <Text>Apellido</Text>
-                <input type="text" placeholder="Ingrese su apellido"/>
+            <Text>Apellido</Text>
+            <TextInput 
+            placeholder='Apellido'
+            onChangeText={text=>{
+                setApellido(text);
+            }}/>
 
-                <Text>Correo</Text>
-                <input type="text" placeholder="Ingrese su correo"/>    
+            <Text>Correo</Text>
+            <TextInput 
+            placeholder='Correo'
+            onChangeText={text=>{
+                setEmail(text);
+            }}/>
 
-                <Text>Usuario</Text>
-                <input type="text" placeholder="Ingrese su usuario"/>
+            <Text>Usuario</Text>
+            <TextInput 
+            placeholder='Usuario'
+            onChangeText={text=>{
+                setUser(text);
+            }}/>
 
-                <Text>Contraseña</Text>
-                <input type="text" placeholder="Ingrese su contraseña"/>           
-                
-            </form>
+            <Text>Contraseña</Text>
+            <TextInput 
+            placeholder='Contraseña'
+            onChangeText={text=>{
+                setContraseña(text);
+            }}/>
 
         <Button
             title='Registrarse'
