@@ -1,6 +1,8 @@
 import {useState} from 'react';
 import {Text, View, Button, Image, TextInput} from 'react-native';
 
+var s = require('../styles/Signup')
+
 export default function Signup({navigation}: any){
     const[email,setEmail] = useState("");
     const[contraseña, setContraseña] = useState("");

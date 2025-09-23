@@ -1,5 +1,7 @@
 import {useState} from 'react';
-import {Text, View, Button, Image, TextInput} from 'react-native';    
+import {Text, View, Button, Image, TextInput} from 'react-native';
+
+var s=require('../styles/Login')
 
 export default function Login({navigation}: any){
     const[email,setEmail] = useState("");

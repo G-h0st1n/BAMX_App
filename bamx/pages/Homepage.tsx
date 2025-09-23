@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, Text, ActivityIndicator, Image, Button, Pressable} from "react-native";
 
+var s = require('../styles/Homepage')
+
 export default function Homepage({navigation}: any){
    
     return(
