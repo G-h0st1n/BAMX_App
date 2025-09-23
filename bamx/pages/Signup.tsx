@@ -1,4 +1,3 @@
-import "./../styles/Signup"
 import {useState} from 'react';
 import {Text, View, Button, Image, TextInput} from 'react-native';
 
