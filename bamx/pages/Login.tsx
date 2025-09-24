@@ -38,6 +38,11 @@ export default function Login({navigation}: any){
                     />
                 </View>
             </View>
+            <View >
+                <Image
+                    source={require('../assets/bottomLN.png')}
+                />
+            </View>
         </View>
     )
 }

@@ -60,6 +60,12 @@ export default function Signup({navigation}: any){
                     />
                 </View>
             </View>
+            
+            <View >
+                <Image
+                    source={require('../assets/bottomSU.png')}
+                />
+            </View>
         </View>
 
     )
