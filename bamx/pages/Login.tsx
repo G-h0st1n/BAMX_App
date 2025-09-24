@@ -8,33 +8,36 @@ export default function Login({navigation}: any){
     const[contraseña, setContraseña] = useState("");
 
     return(
-        <View>
-            <Text> INICIAR SESION </Text>
-            <Text>CORREO</Text>
-            <TextInput 
-                placeholder='Correo'
-                onChangeText={text=>{
-                setEmail(text);
-                }}
-            />
+        <View style={s.container}>
+            <View style={s.backdrop_container}>
+                <Text> INICIAR SESION </Text>
+                <Text>CORREO</Text>
+                <TextInput 
+                    placeholder='Correo'
+                    onChangeText={text=>{
+                    setEmail(text);
+                    }}
+                />
 
-            <Text>Contraseña</Text>
-            <TextInput 
-                placeholder='Contraseña'
-                secureTextEntry={true}
-                onChangeText={text=>{
-                setContraseña(text);
-                }}
-            />
+                <Text>Contraseña</Text>
+                <TextInput 
+                    placeholder='Contraseña'
+                    secureTextEntry={true}
+                    onChangeText={text=>{
+                    setContraseña(text);
+                    }}
+                />
 
-            <Button
-                title='Registrarse'
-                onPress={() =>{
-                    navigation.navigate("Userpage")
-                } }
-            />
-
+                <View style={s.button_container}>
+                    <Button
+                        title='Registrarse'
+                        onPress={() =>{
+                            navigation.navigate("Userpage")
+                        } }
+                        color='#FFAF00'
+                    />
+                </View>
+            </View>
         </View>
-
     )
 }

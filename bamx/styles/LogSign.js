@@ -18,6 +18,9 @@ var logSignStyle = React.StyleSheet.create({
   button_container:{
     margin:10
   },
+  footer_container:{
+    flex:2
+  },
   /*
   circle: {
     width: 200,

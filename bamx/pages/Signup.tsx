@@ -11,51 +11,55 @@ export default function Signup({navigation}: any){
     const[user, setUser] = useState("");
 
     return(
-        <View>
-            <Text> CREAR CUENTA </Text>
+        <View style={s.container}>
+            <View style={s.backdrop_container}>
+                <Text> CREAR CUENTA </Text>
 
-            <Text>Nombre</Text>
-            <TextInput 
-            placeholder='Nombre'
-            onChangeText={text=>{
-                setName(text);
-            }}/>
+                <Text>Nombre</Text>
+                <TextInput 
+                placeholder='Nombre'
+                onChangeText={text=>{
+                    setName(text);
+                }}/>
 
-            <Text>Apellido</Text>
-            <TextInput 
-            placeholder='Apellido'
-            onChangeText={text=>{
-                setApellido(text);
-            }}/>
+                <Text>Apellido</Text>
+                <TextInput 
+                placeholder='Apellido'
+                onChangeText={text=>{
+                    setApellido(text);
+                }}/>
 
-            <Text>Correo</Text>
-            <TextInput 
-            placeholder='Correo'
-            onChangeText={text=>{
-                setEmail(text);
-            }}/>
+                <Text>Correo</Text>
+                <TextInput 
+                placeholder='Correo'
+                onChangeText={text=>{
+                    setEmail(text);
+                }}/>
 
-            <Text>Usuario</Text>
-            <TextInput 
-            placeholder='Usuario'
-            onChangeText={text=>{
-                setUser(text);
-            }}/>
+                <Text>Usuario</Text>
+                <TextInput 
+                placeholder='Usuario'
+                onChangeText={text=>{
+                    setUser(text);
+                }}/>
 
-            <Text>Contraseña</Text>
-            <TextInput 
-            placeholder='Contraseña'
-            onChangeText={text=>{
-                setContraseña(text);
-            }}/>
+                <Text>Contraseña</Text>
+                <TextInput 
+                placeholder='Contraseña'
+                onChangeText={text=>{
+                    setContraseña(text);
+                }}/>
 
-        <Button
-            title='Registrarse'
-            onPress={() =>{
-                navigation.navigate("Userpage")
-            } }
-        />
-        
+                <View style={s.button_container}>
+                    <Button
+                        title='Registrarse'
+                        onPress={() =>{
+                            navigation.navigate("Userpage")
+                        } }
+                        color='#5BB02F'
+                    />
+                </View>
+            </View>
         </View>
 
     )

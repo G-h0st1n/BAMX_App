@@ -25,8 +25,11 @@ export default function LogSign({navigation}: any){
                     />
                 </View>
             </View>
-            
-
+            <View >
+                <Image
+                    source={require('../assets/bottomLS.png')}
+                />
+            </View>
         </View>
 
     )
