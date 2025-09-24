@@ -17,7 +17,14 @@ var logSignStyle = React.StyleSheet.create({
   },
   button_container:{
     margin:10
-  }
+  },
+  /*
+  circle: {
+    width: 200,
+    height: 200,
+    backgroundColor:'#5BB02F',
+    borderRadius: 200/2,
+  }*/
 });
 
 module.exports = logSignStyle;

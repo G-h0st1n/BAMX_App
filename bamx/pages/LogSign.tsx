@@ -25,6 +25,8 @@ export default function LogSign({navigation}: any){
                     />
                 </View>
             </View>
+            
+
         </View>
 
     )

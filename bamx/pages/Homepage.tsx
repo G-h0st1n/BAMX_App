@@ -13,12 +13,15 @@ export default function Homepage({navigation}: any){
             }
         ]}>
 
-        <Pressable onPress={navigation.navigate("LogSign")}>
-            <Image
-                source={require('../styles/user.png')}
-                style={{width:100, height:100}}
-            />
-
+        <Pressable 
+            onPress = {() => {
+                navigation.navigate("LogSign")
+            }}
+        >
+                <Image
+                    source={require('../assets/user.png')}
+                    style={{width:100, height:100}}
+                />
         </Pressable>
 
         </View>
