@@ -54,8 +54,8 @@ export default function Signup({navigation}: any){
                     <Button
                         title='Registrarse'
                         onPress={() =>{
-                            navigation.navigate("Userpage")
-                        } }
+                            navigation.navigate("Homepage")
+                        }}
                         color='#5BB02F'
                     />
                 </View>
