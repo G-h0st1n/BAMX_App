@@ -32,7 +32,7 @@ export default function Login({navigation}: any){
                     <Button
                         title='Registrarse'
                         onPress={() =>{
-                            navigation.navigate("Userpage")
+                            navigation.navigate("Homepage")
                         } }
                         color='#FFAF00'
                     />

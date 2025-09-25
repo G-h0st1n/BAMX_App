@@ -17,37 +17,37 @@ export default function Signup({navigation}: any){
 
                 <Text>Nombre</Text>
                 <TextInput 
-                placeholder='Nombre'
-                onChangeText={text=>{
-                    setName(text);
+                    placeholder='Nombre'
+                    onChangeText={text=>{
+                        setName(text);
                 }}/>
 
                 <Text>Apellido</Text>
                 <TextInput 
-                placeholder='Apellido'
-                onChangeText={text=>{
-                    setApellido(text);
+                    placeholder='Apellido'
+                    onChangeText={text=>{
+                        setApellido(text);
                 }}/>
 
                 <Text>Correo</Text>
                 <TextInput 
-                placeholder='Correo'
-                onChangeText={text=>{
-                    setEmail(text);
+                    placeholder='Correo'
+                    onChangeText={text=>{
+                        setEmail(text);
                 }}/>
 
                 <Text>Usuario</Text>
                 <TextInput 
-                placeholder='Usuario'
-                onChangeText={text=>{
-                    setUser(text);
+                    placeholder='Usuario'
+                    onChangeText={text=>{
+                        setUser(text);
                 }}/>
 
                 <Text>Contraseña</Text>
                 <TextInput 
-                placeholder='Contraseña'
-                onChangeText={text=>{
-                    setContraseña(text);
+                    placeholder='Contraseña'
+                    onChangeText={text=>{
+                        setContraseña(text);
                 }}/>
 
                 <View style={s.button_container}>
