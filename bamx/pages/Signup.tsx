@@ -54,16 +54,17 @@ export default function Signup({navigation}: any){
                     <Button
                         title='Registrarse'
                         onPress={() =>{
-                            navigation.navigate("Userpage")
+                            navigation.navigate("Homepage")
                         } }
                         color='#5BB02F'
                     />
                 </View>
             </View>
             
-            <View >
+            <View style={s.footer_container}>
                 <Image
                     source={require('../assets/bottomSU.png')}
+                    style={s.imageFit}
                 />
             </View>
         </View>

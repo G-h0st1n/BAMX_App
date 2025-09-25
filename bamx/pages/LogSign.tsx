@@ -25,12 +25,12 @@ export default function LogSign({navigation}: any){
                     />
                 </View>
             </View>
-            <View >
+            <View style={s.footer_container}>
                 <Image
                     source={require('../assets/bottomLS.png')}
+                    style={s.imageFit}
                 />
             </View>
         </View>
-
     )
 }

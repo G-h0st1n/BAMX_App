@@ -32,15 +32,16 @@ export default function Login({navigation}: any){
                     <Button
                         title='Registrarse'
                         onPress={() =>{
-                            navigation.navigate("Userpage")
+                            navigation.navigate("Homepage")
                         } }
                         color='#FFAF00'
                     />
                 </View>
             </View>
-            <View >
+            <View style={s.footer_container}>
                 <Image
                     source={require('../assets/bottomLN.png')}
+                    style={s.imageFit}
                 />
             </View>
         </View>
