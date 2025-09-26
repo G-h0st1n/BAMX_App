@@ -5,29 +5,43 @@ var React = require('react-native');
 var logSignStyle = React.StyleSheet.create({
   container: {
     flex: 1,
-    padding: 25,
     backgroundColor: '#E2042A',
   },
   backdrop_container: {
-    marginTop: 200,
+    marginTop: 260,
+    margin:25,
     height:150,
     padding: 25,
     backgroundColor: '#FFFAD8',
     borderRadius: 5,
   },
   button_container:{
-    margin:10
+    margin:10,
+    marginBottom:2,
   },
   footer_container:{
-    flex:2
+    flex:4
   },
-  /*
-  circle: {
-    width: 200,
-    height: 200,
-    backgroundColor:'#5BB02F',
-    borderRadius: 200/2,
-  }*/
+  imageFit:{
+    width:412,
+    height:150,
+    position:'absolute',
+    bottom:-5,
+  },  
+  headerText:{
+    bottom:-250,
+    textAlign:'center',
+    fontSize: 25,
+    color: '#FFFAD8',
+    fontFamily:'sans-serif-medium'
+  },
+  goBackImg:{
+    marginLeft:15,
+    bottom:-20,
+    width:25,
+    height:25
+  }
+
 });
 
 module.exports = logSignStyle;
