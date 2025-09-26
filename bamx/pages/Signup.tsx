@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Text, View, Button, Image, TextInput} from 'react-native';
+import {Text, View, Button, Image, TextInput, Pressable} from 'react-native';
 
 var s = require('../styles/Signup')
 
@@ -12,40 +12,56 @@ export default function Signup({navigation}: any){
 
     return(
         <View style={s.container}>
-            <View style={s.backdrop_container}>
-                <Text> CREAR CUENTA </Text>
+            
+        <Pressable 
+            onPress = {() => {
+                navigation.navigate("LogSign")
+            }}
+        >
+            <Image
+                source={require('../assets/goBack.png')}
+                style={s.goBackImg}
+            />
+        </Pressable>
 
-                <Text>Nombre</Text>
+            <Text style={s.headerText}> CREAR CUENTA </Text>
+            <View style={s.backdrop_container}>
+                <Text style={s.optionText}>Nombre</Text>
                 <TextInput 
                 placeholder='Nombre'
+                style = {s.forumText}
                 onChangeText={text=>{
                     setName(text);
                 }}/>
 
-                <Text>Apellido</Text>
+                <Text style={s.optionText}>Apellido</Text>
                 <TextInput 
                 placeholder='Apellido'
+                style = {s.forumText}
                 onChangeText={text=>{
                     setApellido(text);
                 }}/>
 
-                <Text>Correo</Text>
+                <Text style={s.optionText}>Correo</Text>
                 <TextInput 
                 placeholder='Correo'
+                style = {s.forumText}
                 onChangeText={text=>{
                     setEmail(text);
                 }}/>
 
-                <Text>Usuario</Text>
+                <Text style={s.optionText}>Usuario</Text>
                 <TextInput 
                 placeholder='Usuario'
+                style = {s.forumText}
                 onChangeText={text=>{
                     setUser(text);
                 }}/>
 
-                <Text>Contraseña</Text>
+                <Text style={s.optionText}>Contraseña</Text>
                 <TextInput 
                 placeholder='Contraseña'
+                style = {s.forumText}
                 onChangeText={text=>{
                     setContraseña(text);
                 }}/>
@@ -60,7 +76,6 @@ export default function Signup({navigation}: any){
                     />
                 </View>
             </View>
-            
             <View style={s.footer_container}>
                 <Image
                     source={require('../assets/bottomSU.png')}

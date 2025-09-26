@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Text, View, Button, Image, TextInput} from 'react-native';
+import {Text, View, Button, Image, TextInput, Pressable} from 'react-native';
 
 var s=require('../styles/Login')
 
@@ -9,19 +9,32 @@ export default function Login({navigation}: any){
 
     return(
         <View style={s.container}>
+        <Pressable 
+            onPress = {() => {
+                navigation.navigate("LogSign")
+            }}
+        >
+            <Image
+                source={require('../assets/goBack.png')}
+                style={s.goBackImg}
+            />
+        </Pressable>
+
+            <Text style={s.headerText}> INICIAR SESION </Text>
             <View style={s.backdrop_container}>
-                <Text> INICIAR SESION </Text>
-                <Text>CORREO</Text>
+                <Text style={s.optionText}>Correo</Text>
                 <TextInput 
                     placeholder='Correo'
+                    style = {s.forumText}
                     onChangeText={text=>{
                     setEmail(text);
                     }}
                 />
 
-                <Text>Contraseña</Text>
+                <Text style={s.optionText}>Contraseña</Text>
                 <TextInput 
                     placeholder='Contraseña'
+                    style = {s.forumText}
                     secureTextEntry={true}
                     onChangeText={text=>{
                     setContraseña(text);
