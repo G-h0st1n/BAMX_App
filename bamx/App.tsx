@@ -12,7 +12,7 @@ import Userpage from "./pages/Userpage"
 
 import { initializeApp, getApps } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
-
+import { getAuth } from 'firebase/auth';
 
 // ===== FIREBASE CONFIG (usa tus .env con EXPO_PUBLIC_*) =====
 const firebaseConfig = {
@@ -27,7 +27,20 @@ const firebaseConfig = {
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+
+
+
+// Initialize Auth with persistence
+initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
+
+export const auth = getAuth(app);
 const Stack = createNativeStackNavigator();
+
+
 
 export default function App() {
   return (
