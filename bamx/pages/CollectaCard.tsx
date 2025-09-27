@@ -6,6 +6,7 @@ type CollectaCardProps = {
   startDate: string;
   endDate: string;
   progress: number; // número entre 0 y 1
+  url: string;
   onPress: () => void;
 };
 
@@ -14,6 +15,7 @@ const CollectaCard: React.FC<CollectaCardProps> = ({
   startDate,
   endDate,
   progress,
+  url,
   onPress,
 }) => {
   return (
@@ -21,22 +23,19 @@ const CollectaCard: React.FC<CollectaCardProps> = ({
       {/* Imagen */}
       <Image
         source={{
-          uri: "https://images.unsplash.com/photo-1606788075761-3e89d5aa6d4b",
+          uri: url,
         }}
         style={s.image}
       />
-
       {/* Contenido */}
       <View style={s.content}>
         <Text style={s.title}>
           {title} - [{startDate} - {endDate}]
         </Text>
-
         {/* Barra de progreso */}
         <View style={s.progressBarBackground}>
           <View style={[s.progressBarFill, { width: `${progress * 100}%` }]} />
         </View>
-
         {/* Botón */}
         <TouchableOpacity onPress={onPress} style={s.button}>
           <Text style={s.buttonText}>{"> ver más"}</Text>
