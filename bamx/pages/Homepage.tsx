@@ -22,6 +22,8 @@ interface CampaignProduct {
   campaignId: string;
 }
 
+var s = require('../styles/Homepage')
+
 export default function Homepage({ navigation }: any) {
   const [data, setData] = useState<(Campaign & {progress: number})[]>([]);
   const [loading, setLoading] = useState(true);
@@ -103,35 +105,12 @@ export default function Homepage({ navigation }: any) {
             />
           )}
         />
+        <View style={s.footer_container}>
+            <Image
+                source={require('../assets/bottomHU.png')}
+                style={s.imageFit}
+            />
+        </View>
     </View>
   );
 }
-
-const s = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ffde9c",
-  },
-  header: {
-    backgroundColor: "#22C55E",
-    paddingVertical: 20,
-    paddingHorizontal: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  headerText: {
-    color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "left",
-  },
-  userImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-  scrollContent: {
-    padding: 16,
-  },
-});
