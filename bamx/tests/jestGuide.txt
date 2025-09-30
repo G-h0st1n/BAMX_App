@@ -1,0 +1,4 @@
+Test files have to be called:
+    [File being tested]-test.tsx
+
+To run raid tests use npm test
