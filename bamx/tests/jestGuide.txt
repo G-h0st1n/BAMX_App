@@ -2,3 +2,35 @@ Test files have to be called:
     [File being tested]-test.tsx
 
 To run raid tests use npm test
+
+Example of a test code: 
+/*
+
+    import { render } from '@testing-library/react-native';
+
+    import HomeScreen, { CustomText } from '@/app/index';
+
+    describe('<HomeScreen />', () => {
+        test('Text renders correctly on HomeScreen', () => {
+            const { getByText } = render(<HomeScreen />);
+
+            getByText('Welcome!');
+        });
+    });
+
+*/
+
+
+Example of snapshot test (for UI style):
+/*
+
+    describe('<HomeScreen />', () => {
+
+        test('CustomText renders correctly', () => {
+            const tree = render(<CustomText>Some text</CustomText>).toJSON();
+
+            expect(tree).toMatchSnapshot();
+        });
+    });
+
+*/
