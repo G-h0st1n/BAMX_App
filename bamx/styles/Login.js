@@ -49,6 +49,10 @@ var loginStyle = React.StyleSheet.create({
     bottom:-20,
     width:25,
     height:25
+  }, 
+  check:{
+    fontSize:15,
+    color: '#FFAF00'
   }
 
 });
