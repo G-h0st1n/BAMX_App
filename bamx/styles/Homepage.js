@@ -10,14 +10,14 @@ var homeStyle = React.StyleSheet.create({
   header: {
     backgroundColor: "#22C55E",
     paddingVertical: 20,
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   headerText: {
     color: "#fff",
-    fontSize: 40,
+    fontSize: 30,
     fontWeight: "bold",
     textAlign: "left",
   },
@@ -37,6 +37,10 @@ var homeStyle = React.StyleSheet.create({
     height:150,
     position:'absolute',
     bottom:-5,
+  },
+  button_container:{
+    margin:10,
+    marginBottom:2,
   }
 });
 
