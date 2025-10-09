@@ -1,8 +1,33 @@
 import { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator, Image } from "react-native";
 
-export default function Colectapage({navigation}: any){
+var s = require('../styles/Colectapage')
+
+
+export default function Colectapage({route}: any){
+    const { campaign, products } = route.params;
+    // has colecta specific products and colecta information
+        // need to calc progress again for progressbar
+        // display colecta parameters
+
+    // progress specific chart to show how close to foal
+    
+    // need to fetch user_product documents to get higher for leaderboard
+        //leaderboard an be a numbered list
+
+    console.log(route.params)
     return(
-        <View></View>
+        <View style={s.container}>
+            <Text>{campaign?.name ?? "Unknown campaign"}</Text>
+            {products.map((p: any) => (
+                <Text key={p.id}>{p.received_kg} kg</Text>
+            ))}
+            <View style={s.footer_container}>
+                <Image
+                    source={require('../assets/bottomHU.png')}
+                    style={s.imageFit}
+                />
+            </View>
+        </View>
     )
 }

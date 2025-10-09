@@ -1,5 +1,9 @@
 import {useState} from 'react';
+import { Alert } from 'react-native';
 import {Text, View, Button, Image, TextInput, Pressable} from 'react-native';
+
+import { auth } from '../App';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 var s=require('../styles/Login')
 
@@ -43,10 +47,22 @@ export default function Login({navigation}: any){
 
                 <View style={s.button_container}>
                     <Button
-                        title='Registrarse'
-                        onPress={() =>{
-                            navigation.navigate("Homepage")
-                        } }
+                        title='Iniciar sesión'
+                        onPress={async () => {
+                            if (!email || !contraseña) {
+                                Alert.alert("Please complete all fields correctly.");
+                                return;
+                            }
+
+                            try {
+                                await signInWithEmailAndPassword(auth, email, contraseña);
+                                Alert.alert("Signed in correctly");
+                                navigation.navigate("Homepage");
+                            } catch (error: any) {
+                                console.error("Login error:", error);
+                                Alert.alert("Email or password incorrect");
+                            }
+                        }}
                         color='#FFAF00'
                     />
                 </View>

@@ -1,7 +1,13 @@
 import {useState} from 'react';
+import { Alert } from 'react-native';
 import {Text, View, Button, Image, TextInput, Pressable} from 'react-native';
 
 var s = require('../styles/Signup')
+
+import { auth } from '../App';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { db } from '../App';
+import { collection, addDoc } from 'firebase/firestore';
 
 export default function Signup({navigation}: any){
     const[email,setEmail] = useState("");
@@ -64,9 +70,31 @@ export default function Signup({navigation}: any){
                 <View style={s.button_container}>
                     <Button
                         title='Registrarse'
-                        onPress={() =>{
-                            navigation.navigate("Homepage")
-                        } }
+                        onPress={async () => {
+                            if (!email || !contraseña || !name || !apellido || !user) {
+                                Alert.alert("Please complete all fields correctly.");
+                                return;
+                            }
+
+                            try {
+                                const userCredential = await createUserWithEmailAndPassword(auth, email, contraseña);
+                                const userId = userCredential.user.uid;
+
+                                await addDoc(collection(db, 'users'), {
+                                    uid: userId,
+                                    nombre: name,
+                                    apellido: apellido,
+                                    correo: email,
+                                    usuario: user,
+                                });
+
+                                Alert.alert("User created correctly! Please sign in...");
+                                navigation.navigate("Login");
+                            } catch (error: any) {
+                                console.error("Signup error:", error);
+                                Alert.alert("Please complete all fields correctly.");
+                            }
+                        }}
                         color='#5BB02F'
                     />
                 </View>
