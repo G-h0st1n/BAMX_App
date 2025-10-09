@@ -21,7 +21,7 @@ export default function Login({navigation}: any){
             <View style={s.container}>
             <Pressable 
                 onPress = {() => {
-                    navigation.navigate("LogSign")
+                    navigation.navigate("Homepage")
                 }}
             >
                 <Image

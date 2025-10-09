@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 
-var homeStyle = React.StyleSheet.create({
+var colectaStyle = React.StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFAD8",
@@ -10,14 +10,14 @@ var homeStyle = React.StyleSheet.create({
   header: {
     backgroundColor: "#22C55E",
     paddingVertical: 20,
-    paddingHorizontal: 8,
+    paddingHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   headerText: {
     color: "#fff",
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "bold",
     textAlign: "left",
   },
@@ -37,11 +37,7 @@ var homeStyle = React.StyleSheet.create({
     height:150,
     position:'absolute',
     bottom:-5,
-  },
-  button_container:{
-    margin:10,
-    marginBottom:2,
   }
 });
 
-module.exports = homeStyle;
+module.exports = colectaStyle;
