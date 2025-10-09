@@ -21,7 +21,7 @@ export default function Signup({navigation}: any){
             
         <Pressable 
             onPress = {() => {
-                navigation.navigate("LogSign")
+                navigation.navigate("Homepage")
             }}
         >
             <Image
