@@ -3,12 +3,14 @@ import { db } from "../App";
 import { View, ScrollView, Text, StyleSheet, Image, Pressable, FlatList } from "react-native";
 import CollectaCard from "./ColectaCard";
 import { collection, getDocs, DocumentReference } from "firebase/firestore";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../App";
 
 interface Campaign {
   id: string;
   name: string;
-  start: any; // Timestamp from Firestore
-  end: any;   // Timestamp from Firestore
+  start: any;
+  end: any;
   goal_kg: number;
   image_url: string;
   place: string;
@@ -17,7 +19,7 @@ interface Campaign {
 
 interface CampaignProduct {
   id: string;
-  campaign_id: any; // Firestore DocumentReference
+  campaign_id: any;
   received_kg: number;
   campaignId: string;
 }
@@ -27,9 +29,19 @@ var s = require('../styles/Homepage')
 export default function Homepage({ navigation }: any) {
   const [data, setData] = useState<(Campaign & {progress: number})[]>([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(null); // Estado para el usuario
   
+  // Verificar estado de autenticación
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      console.log("👤 Estado de autenticación:", currentUser ? "Sesión iniciada" : "No hay sesión");
+    });
+
+    return unsubscribe; // Limpiar suscripción al desmontar
+  }, []);
+
   useEffect(() =>{
-    //funcion fetch de todas las colectas.
     async function fetchData() {
       setLoading(true);
 
@@ -38,8 +50,6 @@ export default function Homepage({ navigation }: any) {
         ...(doc.data() as Campaign), 
         id: doc.id,
       }));
-      //console.log("========Colecta Json========")
-      //console.log(campaigns);
 
       const productsSnapshot = await getDocs(collection(db, "campaign_products"));
       const products: CampaignProduct[] = productsSnapshot.docs.map((doc) => {
@@ -65,52 +75,63 @@ export default function Homepage({ navigation }: any) {
         
         setData(campaignsWithProgress);
         setLoading(false);
-        //console.log("doxuments loaded =======================")
-        //console.log("Campaigns:", campaigns);
-        //console.log("Products:", products);
     }
     
     fetchData();
-  }, [])
+  }, []);
+
+  const handleUserPress = () => {
+    if (user) {
+      // Si hay usuario logueado, ir a Userpage
+      navigation.navigate("Userpage");
+    } else {
+      // Si no hay usuario, ir a LogSign
+      navigation.navigate("LogSign");
+    }
+  };
 
   return (
     <View style={s.container}>
       {/* Header verde con BAMX App y usuario */}
       <View style={s.header}>
         <Text style={s.headerText}>BAMX App</Text>
-        <Pressable
-          onPress={() => {
-            navigation.navigate("LogSign");
-          }}
-        >
+        <Pressable onPress={handleUserPress}>
           <Image
             source={require("../assets/user.png")}
             style={s.userImage}
           />
         </Pressable>
       </View>
-      {/* Contenido principal */}
-        <FlatList 
-        contentContainerStyle={s.scrollContent}
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={({item}) => (
-            <CollectaCard
-              title={item.name}
-              startDate={item.start?.toDate?.().toLocaleDateString() ?? "N/A"}
-              endDate={item.end?.toDate?.().toLocaleDateString() ?? "N/A"}
-              progress={item.progress}
-              url={item.image_url}
-              onPress={() => navigation.navigate("Colectapage", { campaignId: item.id })} 
-            />
-          )}
-        />
-        <View style={s.footer_container}>
-            <Image
-                source={require('../assets/bottomHU.png')}
-                style={s.imageFit}
-            />
+
+      {/* Mostrar información del usuario si está logueado */}
+      {user && (
+        <View style={s.userInfo}>
+          <Text style={s.welcomeText}>Bienvenido, {user.email}</Text>
         </View>
+      )}
+
+      {/* Contenido principal */}
+      <FlatList 
+        contentContainerStyle={s.scrollContent}
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({item}) => (
+          <CollectaCard
+            title={item.name}
+            startDate={item.start?.toDate?.().toLocaleDateString() ?? "N/A"}
+            endDate={item.end?.toDate?.().toLocaleDateString() ?? "N/A"}
+            progress={item.progress}
+            url={item.image_url}
+            onPress={() => navigation.navigate("Colectapage", { campaignId: item.id })} 
+          />
+        )}
+      />
+      <View style={s.footer_container}>
+        <Image
+          source={require('../assets/bottomHU.png')}
+          style={s.imageFit}
+        />
+      </View>
     </View>
   );
 }
