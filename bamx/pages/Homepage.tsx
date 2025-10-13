@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../App";
-import { View, ScrollView, Text, StyleSheet, Image, Pressable, FlatList } from "react-native";
+import { db, auth} from "../App";
+import { View, Button, Text, Image, Pressable, FlatList } from "react-native";
 import CollectaCard from "./ColectaCard";
 import { collection, getDocs, DocumentReference } from "firebase/firestore";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../App";
 
 interface Campaign {
   id: string;
@@ -92,15 +91,35 @@ export default function Homepage({ navigation }: any) {
 
   return (
     <View style={s.container}>
-      {/* Header verde con BAMX App y usuario */}
       <View style={s.header}>
         <Text style={s.headerText}>BAMX App</Text>
         <Pressable onPress={handleUserPress}>
           <Image
             source={require("../assets/user.png")}
             style={s.userImage}
+            
           />
         </Pressable>
+          
+              <View style={s.button_container}>
+                  <Button
+                      title='Registrarse'
+                      onPress={() => {
+                        navigation.navigate("Signup");
+                      }}
+                      color='#FFAF00'
+                  />
+              </View>
+
+              <View style={s.button_container}>
+                  <Button
+                      title='Iniciar sesión'
+                      onPress={() => {
+                        navigation.navigate("Login");
+                      }}
+                      color='#FFAF00'
+                  />
+              </View>
       </View>
 
       {/* Mostrar información del usuario si está logueado */}
