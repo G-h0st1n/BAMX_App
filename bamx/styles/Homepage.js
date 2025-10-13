@@ -39,8 +39,7 @@ var homeStyle = React.StyleSheet.create({
     bottom:-5,
   },
   button_container:{
-    margin:10,
-    marginBottom:2,
+    margin:4,
   }
 });
 
