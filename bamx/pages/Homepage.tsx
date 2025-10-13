@@ -85,7 +85,7 @@ export default function Homepage({ navigation }: any) {
       navigation.navigate("Userpage");
     } else {
       // Si no hay usuario, ir a LogSign
-      navigation.navigate("LogSign");
+      navigation.navigate("Login");
     }
   };
 
