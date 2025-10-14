@@ -1,7 +1,7 @@
   import React, { useEffect, useState } from "react";
   import { db } from "../App";
   import { View, ScrollView, Text, StyleSheet, Image, Pressable, FlatList, Button } from "react-native";
-  import CollectaCard from "./CollectaCard";
+  import CollectaCard from "./ColectaCard";
   import { collection, getDocs, DocumentReference } from "firebase/firestore";
 
   interface Campaign {
