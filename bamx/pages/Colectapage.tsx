@@ -18,6 +18,17 @@ export default function Colectapage({route}: any){
     console.log(route.params)
     return(
         <View style={s.container}>
+            <Image
+                style={s.headerImg}
+                source={{uri:'https://d6isf1yxni2j5.cloudfront.net/large_viveres_coahuila_otis_9e98d4fe39.jpg'}}
+            />
+            <View style={s.header}>
+                <Text style={s.headerText}>NOMBRE DE CAMPAÑA</Text>
+                <Text style={s.subText}>fecha inicio - fecha fin</Text>
+            </View>
+
+
+
             <Text>{campaign?.name ?? "Unknown campaign"}</Text>
             {products.map((p: any) => (
                 <Text key={p.id}>{p.received_kg} kg</Text>

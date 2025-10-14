@@ -7,27 +7,26 @@ var colectaStyle = React.StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFAD8",
   },
-  header: {
-    backgroundColor: "#22C55E",
-    paddingVertical: 20,
-    paddingHorizontal: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+  headerImg: {
+    width: 420,
+    height:100,
   },
-  headerText: {
-    color: "#fff",
-    fontSize: 40,
-    fontWeight: "bold",
-    textAlign: "left",
+  header:{
+    backgroundColor: '#FFAF00',
+    width:210*2,
+    height:80,
+    padding:10
   },
-  userImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+  headerText:{
+    textAlign:'left',
+    fontSize:30,
+    color: '#5C2204'
   },
-  scrollContent: {
-    padding: 16,
+  subText:{
+    textAlign:'left',
+    fontSize:15,
+    color: '#5C2204'
+
   },
   footer_container:{
     flex:4

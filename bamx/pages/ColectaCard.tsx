@@ -47,7 +47,7 @@ const CollectaCard: React.FC<CollectaCardProps> = ({
 
 const s = StyleSheet.create({
   card: {
-    backgroundColor: "#FFC64A", // yellow-100
+    backgroundColor: "#FFAF00", // yellow-100
     borderRadius: 12,
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -66,7 +66,7 @@ const s = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#78350F", // brown-800
+    color: "#5C2204", // brown-800
   },
   progressBarBackground: {
     width: "100%",
