@@ -9,10 +9,10 @@ var signupStyle = React.StyleSheet.create({
     
   },
   backdrop_container: {
-    marginTop: 100,
-    height:480,
-    padding: 15,
-    margin:30,
+    marginTop: 50,
+    height:550,
+    padding: 25,
+    margin:20,
     backgroundColor: '#FFFAD8',
     borderRadius: 8,
   },
@@ -29,7 +29,7 @@ var signupStyle = React.StyleSheet.create({
     bottom:-5,
   },
   headerText:{
-    bottom:-90,
+    bottom:-40,
     textAlign:'center',
     fontSize: 25,
     color: '#FFFAD8',
