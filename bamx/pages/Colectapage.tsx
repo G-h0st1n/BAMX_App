@@ -3,6 +3,12 @@ import { View, Text, ActivityIndicator, Image } from "react-native";
 
 var s = require('../styles/Colectapage')
 
+ interface CampaingUserTotals {
+        id: string;
+        total_g: number;
+        user_id: string;
+        campaing_id: string;
+    }
 
 export default function Colectapage({route}: any){
     const { campaign, products } = route.params;
@@ -13,7 +19,8 @@ export default function Colectapage({route}: any){
     // progress specific chart to show how close to foal
     
     // need to fetch user_product documents to get higher for leaderboard
-        //leaderboard an be a numbered list
+        //leaderboard can be a numbered list
+
 
     console.log(route.params)
     return(
@@ -26,8 +33,6 @@ export default function Colectapage({route}: any){
                 <Text style={s.headerText}>NOMBRE DE CAMPAÑA</Text>
                 <Text style={s.subText}>fecha inicio - fecha fin</Text>
             </View>
-
-
 
             <Text>{campaign?.name ?? "Unknown campaign"}</Text>
             {products.map((p: any) => (
