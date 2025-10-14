@@ -13,7 +13,14 @@ export default function Colectapage({route}: any){
     // progress specific chart to show how close to foal
     
     // need to fetch user_product documents to get higher for leaderboard
-        //leaderboard an be a numbered list
+        //leaderboard can be a numbered list
+
+    interface CampaingUserTotals {
+        id: string;
+        total_g: number;
+        user_id: string;
+        campaing_id: string;
+    }
 
     console.log(route.params)
     return(
