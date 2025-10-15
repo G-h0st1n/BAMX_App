@@ -60,6 +60,11 @@ var colectaStyle = React.StyleSheet.create({
     fontSize:moderateScale(16),
     color: '#5C2204'
   },
+  graphs:{
+    padding:moderateScale(20),
+    justifyContent:'center',
+    alignItems:'center'
+  },
   footer_container:{
     flex:4
   },
