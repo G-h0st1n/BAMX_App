@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
-type CollectaCardProps = {
+  var s = require('../styles/ColectaCard')
+
+type ColectaCardProps = {
   title: string;
   startDate: string;
   endDate: string;
@@ -10,7 +12,7 @@ type CollectaCardProps = {
   onPress: () => void;
 };
 
-const CollectaCard: React.FC<CollectaCardProps> = ({
+const ColectaCard: React.FC<ColectaCardProps> = ({
   title,
   startDate,
   endDate,
@@ -45,53 +47,5 @@ const CollectaCard: React.FC<CollectaCardProps> = ({
   );
 };
 
-const s = StyleSheet.create({
-  card: {
-    backgroundColor: "#FFAF00", // yellow-100
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
-    marginBottom: 16,
-    overflow: "hidden",
-  },
-  image: {
-    width: "100%",
-    height: 112, // h-28
-  },
-  content: {
-    padding: 12,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#5C2204", // brown-800
-  },
-  progressBarBackground: {
-    width: "100%",
-    height: 12,
-    backgroundColor: "#4E342E", // brown-700
-    borderRadius: 6,
-    marginTop: 8,
-  },
-  progressBarFill: {
-    height: 12,
-    backgroundColor: "#22C55E", // green-500
-    borderRadius: 6,
-  },
-  button: {
-    marginTop: 12,
-    backgroundColor: "#FCD34D", // yellow-300
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    alignSelf: "flex-start",
-  },
-  buttonText: {
-    color: "#3F1D0B", // brown-900
-    fontWeight: "600",
-  },
-});
 
-export default CollectaCard;
+export default ColectaCard;

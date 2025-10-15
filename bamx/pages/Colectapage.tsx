@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, Image } from "react-native";
+import { View, Text, ActivityIndicator, Image, Pressable } from "react-native";
+
 
 var s = require('../styles/Colectapage')
 
@@ -10,7 +11,7 @@ var s = require('../styles/Colectapage')
         campaing_id: string;
     }
 
-export default function Colectapage({route}: any){
+export default function Colectapage({route, navigation}: any){
     const { campaign, products } = route.params;
     // has colecta specific products and colecta information
         // need to calc progress again for progressbar
@@ -29,12 +30,31 @@ export default function Colectapage({route}: any){
                 style={s.headerImg}
                 source={{uri:'https://d6isf1yxni2j5.cloudfront.net/large_viveres_coahuila_otis_9e98d4fe39.jpg'}}
             />
+            <Pressable 
+                onPress = {() => {
+                    navigation.navigate("Homepage")
+                }}
+            >
+                <Image
+                    source={require('../assets/goBack.png')}
+                    style={s.goBackImg}
+                />
+            </Pressable>
             <View style={s.header}>
-                <Text style={s.headerText}>NOMBRE DE CAMPAÑA</Text>
+                <Text style={s.headerText}>{campaign?.name ?? "Unknown campaign"}</Text>
                 <Text style={s.subText}>fecha inicio - fecha fin</Text>
             </View>
 
-            <Text>{campaign?.name ?? "Unknown campaign"}</Text>
+            <View style={s.desc}>
+                <Text style={s.descText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ullamcorper dapibus lorem quis posuere. Cras vitae imperdiet nibh. Curabitur fermentum hendrerit nunc sit amet blandit.</Text>
+
+            </View>
+
+            <View style={s.desc}>
+                <Text style={s.descText}>Articulos necesarios para la colecta: Arroz, Frijol, Aceite, etc etc</Text>
+
+            </View>
+ 
             {products.map((p: any) => (
                 <Text key={p.id}>{p.received_kg} kg</Text>
             ))}
@@ -47,3 +67,8 @@ export default function Colectapage({route}: any){
         </View>
     )
 }
+
+// VISTA CARRUSEL ENTRE LEADERBOARD Y CHART
+// Typelist Leaderboard
+// Bar chart donations
+
