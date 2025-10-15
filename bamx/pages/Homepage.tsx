@@ -20,6 +20,7 @@
     campaign_id: any; // Firestore DocumentReference
     received_kg: number;
     campaignId: string;
+    minimum_kg: string; // goal of kgs
   }
 
   var s = require('../styles/Homepage')

@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import ProgressBar from 'react-native-progress-bar-horizontal';
 
   var s = require('../styles/ColectaCard')
 
@@ -35,9 +36,15 @@ const ColectaCard: React.FC<ColectaCardProps> = ({
           {title} - [{startDate} - {endDate}]
         </Text>
         {/* Barra de progreso */}
-        <View style={s.progressBarBackground}>
-          <View style={[s.progressBarFill, { width: `${progress * 100}%` }]} />
-        </View>
+        <ProgressBar 
+          progress={0.5}
+          borderWidth={1}
+          fillColor="#5AB02F"
+          unfilledColor="#5C2204"
+          height={10}
+          duration={100}
+        />
+
         {/* Botón */}
         <TouchableOpacity onPress={onPress} style={s.button}>
           <Text style={s.buttonText}>{"> ver más"}</Text>

@@ -36,18 +36,6 @@ var colectaCardStyle= React.StyleSheet.create({
     fontWeight: "bold",
     color: "#5C2204", 
   },
-  progressBarBackground: {
-    width: horizontalScale("100%"),
-    height: verticalScale(12),
-    backgroundColor: "#4E342E", 
-    borderRadius: moderateScale(6),
-    marginTop: verticalScale(8),
-  },
-  progressBarFill: {
-    height: verticalScale(12),
-    backgroundColor: "#22C55E", 
-    borderRadius: moderateScale(6),
-  },
   button: {
     marginTop: verticalScale(12),
     backgroundColor: "#FCD34D", 
@@ -60,6 +48,13 @@ var colectaCardStyle= React.StyleSheet.create({
     color: "#3F1D0B",
     fontWeight: moderateScale("600"),
   },
+  progressBar:{
+    borderWidth:1,
+    fillColor:"#5AB02F",
+    unfilledColor:"#5C2204",
+    height:10,
+    duration:100
+  }
 });
 
 module.exports = colectaCardStyle;
