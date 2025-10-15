@@ -10,16 +10,11 @@ var s=require('../styles/Login')
 export default function Login({navigation}: any){
     const[email,setEmail] = useState("");
     const[contraseña, setContraseña] = useState("");
-
-    type CheckboxComponentProps = {};
-
-    const CheckboxComponent: React.FunctionComponent<CheckboxComponentProps> = () => {
     const [check1, setCheck1] = useState(false);
-
 
     return(
             <View style={s.container}>
-            <Pressable 
+            <Pressable
                 onPress = {() => {
                     navigation.navigate("Homepage")
                 }}
@@ -33,7 +28,7 @@ export default function Login({navigation}: any){
                 <Text style={s.headerText}> INICIAR SESION </Text>
                 <View style={s.backdrop_container}>
                     <Text style={s.optionText}>Correo</Text>
-                    <TextInput 
+                    <TextInput
                         placeholder='Correo'
                         style = {s.forumText}
                         onChangeText={text=>{
@@ -42,7 +37,7 @@ export default function Login({navigation}: any){
                     />
 
                     <Text style={s.optionText}>Contraseña</Text>
-                    <TextInput 
+                    <TextInput
                         placeholder='Contraseña'
                         style = {s.forumText}
                         secureTextEntry={true}
@@ -73,13 +68,7 @@ export default function Login({navigation}: any){
                         />
                     </View>
 
-                    <CheckBox
-                        center
-                        title="No quiero aparecer en la leaderboard"
-                        checked={check1}
-                        onPress={() => setCheck1(!check1)}
-                        style={s.check}
-                    />
+
 
                 </View>
                 <View style={s.footer_container}>
@@ -90,5 +79,4 @@ export default function Login({navigation}: any){
                 </View>
             </View>
         )
-    }
 }

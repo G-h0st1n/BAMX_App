@@ -34,7 +34,7 @@ export default function Userpage({ navigation }: any) {
         await fetchUserData(user.uid);
       } else {
         setLoading(false);
-        navigation.navigate("LogSign");
+        navigation.navigate("Homepage");
       }
     });
 
