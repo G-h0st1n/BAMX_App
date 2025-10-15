@@ -37,11 +37,11 @@ const ColectaCard: React.FC<ColectaCardProps> = ({
         </Text>
         {/* Barra de progreso */}
         <ProgressBar 
-          progress={0.5}
+          progress={progress}
           borderWidth={1}
           fillColor="#5AB02F"
           unfilledColor="#5C2204"
-          height={10}
+          height={12}
           duration={100}
         />
 
