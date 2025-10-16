@@ -22,7 +22,7 @@ var colectaCardStyle= React.StyleSheet.create({
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
     marginBottom: 16,
-    overflow: "hidden",
+    overflow: "hidden"
   },
   image: {
     width: horizontalScale("100%"),

@@ -1,83 +1,88 @@
-  import React, { useEffect, useState } from "react";
-  import { db } from "../App";
-  import { View, ScrollView, Text, StyleSheet, Image, Pressable, FlatList, Button } from "react-native";
-  import ColectaCard from "./ColectaCard";
-  import { collection, getDocs, DocumentReference } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { db } from "../App";
+import { View, ScrollView, Text, StyleSheet, Image, Pressable, FlatList, Button, ImageBackground } from "react-native";
+import ColectaCard from "./ColectaCard";
+import { collection, getDocs, DocumentReference } from "firebase/firestore";
 
-  interface Campaign {
-    id: string;
-    name: string;
-    start: any; // Timestamp from Firestore
-    end: any;   // Timestamp from Firestore
-    goal_kg: number;
-    image_url: string;
-    place: string;
-    is_active: boolean;
-  }
+interface Campaign {
+  id: string;
+  name: string;
+  start: any; // Timestamp from Firestore
+  end: any;   // Timestamp from Firestore
+  goal_kg: number;
+  image_url: string;
+  place: string;
+  is_active: boolean;
+}
 
-  interface CampaignProduct {
-    id: string;
-    campaign_id: any; // Firestore DocumentReference
-    received_kg: number;
-    campaignId: string;
-    minimum_kg: string; // goal of kgs
-  }
+interface CampaignProduct {
+  id: string;
+  campaign_id: any; // Firestore DocumentReference
+  received_kg: number;
+  campaignId: string;
+  minimum_kg: string; // goal of kgs
+}
 
-  var s = require('../styles/Homepage')
+var s = require('../styles/Homepage')
 
-  export default function Homepage({ navigation }: any) {
-    const [data, setData] = useState<(Campaign & {progress: number})[]>([]);
-    const [products, setProducts] = useState<CampaignProduct[]>([]);
-    const [loading, setLoading] = useState(true);
-    
-    useEffect(() =>{
-      //funcion fetch de todas las colectas.
-      async function fetchData() {
-        setLoading(true);
+export default function Homepage({ navigation }: any) {
+  const [data, setData] = useState<(Campaign & {progress: number})[]>([]);
+  const [products, setProducts] = useState<CampaignProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() =>{
+    //funcion fetch de todas las colectas.
+    async function fetchData() {
+      setLoading(true);
 
-        const campaignSnapshot = await getDocs(collection(db, "campaign"));
-        const campaigns: Campaign[] = campaignSnapshot.docs.map((doc) => ({
-          ...(doc.data() as Campaign), 
+      const campaignSnapshot = await getDocs(collection(db, "campaign"));
+      const campaigns: Campaign[] = campaignSnapshot.docs.map((doc) => ({
+        ...(doc.data() as Campaign), 
+        id: doc.id,
+      }));
+      //console.log("========Colecta Json========")
+      //console.log(campaigns);
+
+      const productsSnapshot = await getDocs(collection(db, "campaign_products"));
+      const productsData: CampaignProduct[] = productsSnapshot.docs.map((doc) => {
+        const data = doc.data() as CampaignProduct;
+        return {
+          ...data,
           id: doc.id,
-        }));
-        //console.log("========Colecta Json========")
-        //console.log(campaigns);
+          campaignId: (data.campaign_id as DocumentReference).id,
+        };
+      });
+      setProducts(productsData); 
 
-        const productsSnapshot = await getDocs(collection(db, "campaign_products"));
-        const productsData: CampaignProduct[] = productsSnapshot.docs.map((doc) => {
-          const data = doc.data() as CampaignProduct;
-          return {
-            ...data,
-            id: doc.id,
-            campaignId: (data.campaign_id as DocumentReference).id,
-          };
+      const campaignsWithProgress = campaigns.map(
+        (campaign) => {
+          const relatedProducts = productsData.filter((p) => p.campaignId === campaign.id);
+          const totalReceived = relatedProducts.reduce(
+            (sum, p) => sum + (p.received_kg || 0),
+            0
+          );
+          const progress = Math.min(totalReceived / campaign.goal_kg, 1);
+
+          return { ...campaign, progress };
         });
-        setProducts(productsData); 
+        
+        setData(campaignsWithProgress);
+        setLoading(false);
+        //console.log("doxuments loaded =======================")
+        //console.log("Campaigns:", campaigns);
+        //console.log("Products:", products);
+    }
+    
+    fetchData();
+  }, [])
 
-        const campaignsWithProgress = campaigns.map(
-          (campaign) => {
-            const relatedProducts = productsData.filter((p) => p.campaignId === campaign.id);
-            const totalReceived = relatedProducts.reduce(
-              (sum, p) => sum + (p.received_kg || 0),
-              0
-            );
-            const progress = Math.min(totalReceived / campaign.goal_kg, 1);
+  return (
+    <View style={s.container}>
+      <ImageBackground
+          source={require('../assets/homeColecta_bg.png')}
+          style={s.bg}
+      >
 
-            return { ...campaign, progress };
-          });
-          
-          setData(campaignsWithProgress);
-          setLoading(false);
-          //console.log("doxuments loaded =======================")
-          //console.log("Campaigns:", campaigns);
-          //console.log("Products:", products);
-      }
-      
-      fetchData();
-    }, [])
-
-    return (
-      <View style={s.container}>
         {/* Header verde con BAMX App y usuario */}
         <View style={s.header}>
         <Text style={s.headerText}>BAMX App</Text>
@@ -135,12 +140,7 @@
               />
             )}
           />
-          <View style={s.footer_container}>
-              <Image
-                  source={require('../assets/bottomHU.png')}
-                  style={s.imageFit}
-              />
-          </View>
-      </View>
-    );
-  }
+      </ImageBackground>
+    </View>
+  );
+}

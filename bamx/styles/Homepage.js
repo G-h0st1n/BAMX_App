@@ -18,6 +18,9 @@ var homeStyle = React.StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFAD8",
   },
+  bg:{
+    flex:4
+  },
   header: {
     backgroundColor: "#22C55E",
     paddingVertical: 20,
@@ -39,15 +42,6 @@ var homeStyle = React.StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
-  },
-  footer_container:{
-    flex:4
-  },
-  imageFit:{
-    width:horizontalScale(380),
-    height:verticalScale(100),
-    position:'absolute',
-    bottom:verticalScale(-5),
   },
   button_container:{
     margin:4,
