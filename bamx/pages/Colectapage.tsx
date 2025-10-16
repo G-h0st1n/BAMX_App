@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, Image, Pressable, ScrollView, FlatList } from "react-native";
+import { View, Text, ActivityIndicator, Image, Pressable, FlatList, ImageBackground } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 
 var s = require('../styles/Colectapage')
@@ -11,7 +11,7 @@ var s = require('../styles/Colectapage')
         campaing_id: string;
     }
 
-
+//REPLACE DATA VARIABLES WITH FIREBASE ONES
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -29,11 +29,12 @@ const DATA = [
 
 type ItemProps = {title: string};
 
-const Item = ({title}: ItemProps) => (
-  <View>
-    <Text>{title}</Text>
+const Leaderboard = ({title}: ItemProps) => (
+  <View style={s.board}>
+    <Text style={s.title}>{title}</Text>
   </View>
-);   
+);
+
 
 export default function Colectapage({route, navigation}: any){
     
@@ -47,72 +48,70 @@ export default function Colectapage({route, navigation}: any){
     // need to fetch user_product documents to get higher for leaderboard
         //leaderboard can be a numbered list
 
-    const barData = [{value: 150, label:'Arroz'}, {value: 300, label:'Frijol'}, {value: 260, label:'Aceite'}];
+    //CONECT BARDATA TO FIREBASE
+    const barData = [{value: 150, label:'Arroz'}, {value: 300, label:'Frijol'}, {value: 260, label:'Aceite'}, {value: 100, label:'A'}, {value: 30, label:'B'}, {value: 26, label:'C'}];
 
 
     console.log(route.params)
     return(
         <View style={s.container}>
-            <ScrollView>
-
-            <Image
-                style={s.headerImg}
-                source={{uri: campaign.image_url}}
-                />
-            <Pressable 
-                onPress = {() => {
-                    navigation.navigate("Homepage")
-                }}
+                <ImageBackground
+                        style={s.headerImg}
+                        source={{uri: campaign.image_url}}
                 >
-                <Image
-                    source={require('../assets/goBack.png')}
-                    style={s.goBackImg}
-                    />
-            </Pressable>
-            <View style={s.header}>
-                <Text style={s.headerText}>{campaign?.name ?? "Unknown campaign"}</Text>
-                <Text style={s.subText}>{campaign.start?.toDate?.().toLocaleDateString() ?? "N/A"} - {campaign.end?.toDate?.().toLocaleDateString() ?? "N/A"}</Text>
-            </View>
+                    <Pressable 
+                        onPress = {() => {
+                            navigation.navigate("Homepage")
+                        }}
+                        >
+                        <Image
+                            source={require('../assets/goBack.png')}
+                            style={s.goBackImg}
+                            />
+                    </Pressable>
+                </ImageBackground>
+                
+                <View style={s.header}>
+                    <Text style={s.headerText}>{campaign?.name ?? "Unknown campaign"}</Text>
+                    <Text style={s.subText}>{campaign.start?.toDate?.().toLocaleDateString() ?? "N/A"} - {campaign.end?.toDate?.().toLocaleDateString() ?? "N/A"}</Text>
+                </View>
 
-            <View style={s.desc}>
-                <Text style={s.descText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ullamcorper dapibus lorem quis posuere. Cras vitae imperdiet nibh. Curabitur fermentum hendrerit nunc sit amet blandit.</Text>
+                <View style={s.content}>
+                    <View style={s.desc}>
+                        <Text style={s.descText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ullamcorper dapibus lorem quis posuere. Cras vitae imperdiet nibh. Curabitur fermentum hendrerit nunc sit amet blandit.</Text>
 
-            </View>
+                    </View>
 
-            <View style={s.graphs}>
-                <BarChart 
-                    data={barData}
-                    barWidth={24}
-                    noOfSections={3}
-                    barBorderRadius={4}
-                    frontColor={'#5AB02F'}
-                    yAxisThickness={0}
-                    xAxisThickness={0}
-                    hideRules
-                    showReferenceLine1
-                    referenceLine1Position={300}
-                    referenceLine1Config={{
-                        color: 'gray',
-                        dashWidth: 5,
-                        dashGap: 4,
-                    }}
-                    
-                    />;
+                    <View style={s.graphs}>
+                        <BarChart 
+                            data={barData}
+                            barWidth={24}
+                            noOfSections={4}
+                            barBorderRadius={3}
+                            frontColor={'#5AB02F'}
+                            yAxisThickness={0}
+                            xAxisThickness={0}
+                            hideRules
+                            showReferenceLine1
+                            referenceLine1Position={300}
+                            referenceLine1Config={{
+                                color: 'gray',
+                                dashWidth: 5,
+                                dashGap: 4,
+                            }}
+                            />;
+
+                    </View>
+
+                    <Text style={s.boardText}>TABLA DE PUNTAJES</Text>
 
                     <FlatList
                         data={DATA}
-                        renderItem={({item}) => <Item title={item.title} />}
+                        renderItem={({item}) => <Leaderboard title={item.title} />}
                         keyExtractor={item => item.id}
                     />
+                </View>
 
-            </View>
-
-
-            <View style={s.desc}>
-                <Text style={s.descText}>Articulos necesarios para la colecta: Arroz, Frijol, Aceite, etc etc</Text>
-
-            </View>
-            </ScrollView>
 
             <View style={s.footer_container}>
                 <Image
