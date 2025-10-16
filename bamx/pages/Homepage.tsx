@@ -70,6 +70,13 @@
           //console.log("doxuments loaded =======================")
           //console.log("Campaigns:", campaigns);
           //console.log("Products:", products);
+
+          console.log("=== Raw campaign_products ===");
+          productsSnapshot.docs.forEach((doc) => {
+            console.log(doc.id, doc.data());
+          });
+
+          console.log("Processed productsData", productsData);
       }
       
       fetchData();
