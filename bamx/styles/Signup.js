@@ -1,55 +1,60 @@
-'use strict';
+import { Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+
+const guidelineBaseWidth = 375;
+const guidelineBaseHeight = 812;
+
+const horizontalScale = (size) => (width / guidelineBaseWidth) * size;
+const verticalScale = (size) => (height / guidelineBaseHeight) * size;
+const moderateScale = (size, factor = 0.5) => size + (horizontalScale(size) - size) * factor;
+
+"use strict";
 
 var React = require('react-native');
 
 var signupStyle = React.StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#5AB02F',
-    
+    flex: 1
+  },
+  bg:{
+    flex:4
   },
   backdrop_container: {
-    marginTop: 100,
-    height:480,
-    padding: 15,
-    margin:30,
+    marginTop: verticalScale(60),
+    height:verticalScale(510),
+    padding: moderateScale(15),
+    margin:moderateScale(30),
     backgroundColor: '#FFFAD8',
     borderRadius: 8,
   },
     button_container:{
-    margin:5,
-  },
-  footer_container:{
-    flex:4
-  },
-  imageFit:{
-    width:412,
-    height:150,
-    position:'absolute',
-    bottom:-5,
+    margin:5
   },
   headerText:{
-    bottom:-90,
+    bottom:verticalScale(-50),
     textAlign:'center',
     fontSize: 25,
     color: '#FFFAD8',
     fontFamily:'sans-serif-medium'
   }, 
   optionText: {
-    fontSize:15
-    
+    fontSize:moderateScale(15)
   },
   forumText:{
     borderWidth:2,
     borderColor:'#B3B3B3',
     borderRadius:8,
-    marginBottom:15
+    marginBottom:verticalScale(16)
   },
   goBackImg:{
-    marginLeft:15,
-    bottom:-20,
-    width:25,
-    height:25
+    marginLeft:horizontalScale(15),
+    bottom:verticalScale(-20),
+    width:horizontalScale(25),
+    height:verticalScale(25)
+  },
+  check:{
+    backgroundColor: '#FFFAD8'
   }
 });
 
