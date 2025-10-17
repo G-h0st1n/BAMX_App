@@ -15,8 +15,7 @@ var React = require('react-native');
 
 var homeStyle = React.StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#FFFAD8",
+    flex: 1
   },
   bg:{
     flex:4
