@@ -71,6 +71,10 @@ export default function Colectapage({route, navigation}: any){
     console.log(route.params)
     return(
         <View style={s.container}>
+            <ImageBackground
+                source={require('../assets/homeColecta_bg.png')}
+                style={s.bg}
+            >
                 <ImageBackground
                         style={s.headerImg}
                         source={{uri: campaign.image_url}}
@@ -116,7 +120,6 @@ export default function Colectapage({route, navigation}: any){
                                 dashGap: 4,
                             }}
                             />;
-
                     </View>
 
                     <Text style={s.boardText}>TABLA DE PUNTAJES</Text>
@@ -127,14 +130,7 @@ export default function Colectapage({route, navigation}: any){
                         keyExtractor={item => item.id}
                     />
                 </View>
-
-
-            <View style={s.footer_container}>
-                <Image
-                    source={require('../assets/bottomHU.png')}
-                    style={s.imageFit}
-                    />
-            </View>
+            </ImageBackground>
         </View>
     )
 }

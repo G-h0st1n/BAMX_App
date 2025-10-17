@@ -18,8 +18,12 @@ var colectaStyle = React.StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFAD8"
   },
+  bg:{
+    flex:4
+  },
   content:{
-    margin:10
+    margin:10,
+    flex:1
   },
   board: {
     backgroundColor: '#FFAF00',
@@ -33,7 +37,6 @@ var colectaStyle = React.StyleSheet.create({
     textAlign:'center',
     fontSize:moderateScale(15),
     color: '#5C2204'
-
   },
   goBackImg:{
     marginLeft:15,
@@ -81,15 +84,6 @@ var colectaStyle = React.StyleSheet.create({
   graphs:{
     padding:moderateScale(10),
     paddingLeft:horizontalScale(10)
-  },
-  footer_container:{
-    flex:4
-  },
-  imageFit:{
-    width:horizontalScale(380),
-    height:verticalScale(100),
-    position:'absolute',
-    bottom:verticalScale(-5),
   }
 });
 
