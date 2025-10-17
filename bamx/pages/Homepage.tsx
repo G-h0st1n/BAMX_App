@@ -12,6 +12,7 @@ interface Campaign {
   end: any;   // Timestamp from Firestore
   goal_kg: number;
   image_url: string;
+  description: string;
   place: string;
   is_active: boolean;
 }
@@ -82,7 +83,7 @@ export default function Homepage({ navigation }: any) {
         fetchData();
     }, []);
 
-    const handleUserPress = () => {
+   /* const handleUserPress = () => {
         if (user) {
             // Si hay usuario logueado, ir a Userpage
             navigation.navigate("Userpage");
@@ -90,7 +91,7 @@ export default function Homepage({ navigation }: any) {
             // Si no hay usuario, ir a Login?
             navigation.navigate("Login");
         }
-    };
+    };*/
 
     return (
         <View style={s.container}>

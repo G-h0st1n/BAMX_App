@@ -67,10 +67,15 @@ export default function Colectapage({route, navigation}: any){
                     id: doc.id,
                 }
             })
-
-            //const relatedUsers = userProduct.filter((u)) // filter through only campaing unser totals that reference the route params campaign
+            
+            // filter through only campaing unser totals that reference the route params campaign
+            const relatedUsers = userProduct.filter((u) => u.campaing_id === campaign.id); 
+            setUserProduct(relatedUsers);
+            console.log(userProduct);
         }
-    })
+
+        fetchData();
+    }, []);
 
     const barData = products.map((p) =>({
         value: p.received_kg ?? 0,
@@ -110,7 +115,7 @@ export default function Colectapage({route, navigation}: any){
 
                 <View style={s.content}>
                     <View style={s.desc}>
-                        <Text style={s.descText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ullamcorper dapibus lorem quis posuere. Cras vitae imperdiet nibh. Curabitur fermentum hendrerit nunc sit amet blandit.</Text>
+                        <Text style={s.descText}>{campaign.description}</Text>
 
                     </View>
 
@@ -131,7 +136,7 @@ export default function Colectapage({route, navigation}: any){
                                 color: 'gray',
                                 dashWidth: 5,
                                 dashGap: 4,
-                                labelText: String(dividedGoal) +"kg",
+                                labelText: String(dividedGoal) + " kg",
                             }}
                             />
                     </View>
