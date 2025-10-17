@@ -130,13 +130,6 @@ export default function Homepage({ navigation }: any) {
                     </>
                 )}
             </View>
-
-            {user && (
-                <View style={s.userInfo}>
-                    <Text style={s.welcomeText}>Bienvenido, {user.email}</Text>
-                </View>
-            )}
-
             <FlatList
                 contentContainerStyle={s.scrollContent}
                 data={data}
