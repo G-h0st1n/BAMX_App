@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import { Alert } from 'react-native';
 import {Text, View, Button, Image, TextInput, Pressable} from 'react-native';
+import { CheckBox, Icon } from '@rneui/themed';
 
 var s = require('../styles/Signup')
 
@@ -15,6 +16,7 @@ export default function Signup({navigation}: any){
     const[name,setName] = useState("");
     const[apellido, setApellido] = useState("");
     const[user, setUser] = useState("");
+    const [check1, setCheck1] = useState(false);
 
     return(
         <View style={s.container}>
@@ -67,6 +69,15 @@ export default function Signup({navigation}: any){
                     onChangeText={text=>{
                         setContraseña(text);
                 }}/>
+
+                <CheckBox
+                    center
+                    title="No quiero aparecer en la leaderboard"
+                    checked={check1}
+                    onPress={() => setCheck1(!check1)}
+                    style={s.check}
+                />
+                
                 <View style={s.button_container}>
                     <Button
                         title='Registrarse'
@@ -88,6 +99,7 @@ export default function Signup({navigation}: any){
                                     usuario: user,
                                 });
 
+
                                 Alert.alert("User created correctly! Please sign in...");
                                 navigation.navigate("Login");
                             } catch (error: any) {
@@ -97,6 +109,8 @@ export default function Signup({navigation}: any){
                         }}
                         color='#5BB02F'
                     />
+
+
                 </View>
             </View>
             <View style={s.footer_container}>

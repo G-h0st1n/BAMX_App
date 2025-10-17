@@ -60,7 +60,7 @@ export default function Colectapage({route, navigation}: any){
                 }
             })
 
-            const relatedUsers = userProduct.filter((u)) // filter through only campaing unser totals that reference the route params campaign
+            //const relatedUsers = userProduct.filter((u)) // filter through only campaing unser totals that reference the route params campaign
         }
     })
 

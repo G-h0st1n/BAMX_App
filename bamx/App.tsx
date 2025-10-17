@@ -54,8 +54,8 @@ export default function App() {
           component={Colectapage}
         />
         <Stack.Screen 
-          name="Login" 
-          component={Login} 
+          name="Login"
+          component={Login}
         />
         <Stack.Screen 
           name="Signup" 
@@ -63,7 +63,7 @@ export default function App() {
         />
         <Stack.Screen 
           name="Userpage" 
-          component={Userpage} 
+          component={Userpage}
         />
       </Stack.Navigator>
     </NavigationContainer>
