@@ -16,7 +16,6 @@ var React = require('react-native');
 var colectaStyle = React.StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFAD8"
   },
   bg:{
     flex:4
