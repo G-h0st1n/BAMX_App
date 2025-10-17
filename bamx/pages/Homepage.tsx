@@ -150,6 +150,15 @@ export default function Homepage({ navigation }: any) {
                         onPress={() => navigation.navigate("Colectapage", { campaignId: item.id })}
                     />
                 )}
+                ListFooterComponent={
+                    <View style={{ marginTop: 20, marginBottom: 40, alignItems: "center" }}>
+                        <Button
+                            title="Añadir Colecta"
+                            color="#28A745" // green
+                            onPress={() => navigation.navigate("CreateColecta")}
+                        />
+                    </View>
+                }
             />
             </ImageBackground>
         </View>

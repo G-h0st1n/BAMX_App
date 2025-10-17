@@ -8,15 +8,17 @@ var s = require('../styles/Signup')
 import { auth } from '../App';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { db } from '../App';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, setDoc, doc} from 'firebase/firestore';
 
 export default function Signup({navigation}: any){
     const[email,setEmail] = useState("");
-    const[contraseña, setContraseña] = useState("");
+    const[contraseña, setPassword] = useState("");
     const[name,setName] = useState("");
-    const[apellido, setApellido] = useState("");
+    const[lastName, setLastName] = useState("");
     const[user, setUser] = useState("");
     const [check1, setCheck1] = useState(false);
+    const [checkNoLeaderboard, setCheckNoLeaderboard] = useState(false);
+    const [checkAnonymous] = useState(false);
 
     return(
         <View style={s.container}>
@@ -50,7 +52,7 @@ export default function Signup({navigation}: any){
                             placeholder='Apellido'
                             style = {s.forumText}
                             onChangeText={text=>{
-                                setApellido(text);
+                                setLastName(text);
                         }}/>
                         <Text style={s.optionText}>Correo</Text>
                         <TextInput 
@@ -71,15 +73,15 @@ export default function Signup({navigation}: any){
                             placeholder='Contraseña'
                             style = {s.forumText}
                             onChangeText={text=>{
-                                setContraseña(text);
+                                setPassword(text);
                             }}/>
 
 
                         <CheckBox
                             center
                             title="No quiero aparecer en la leaderboard"
-                            checked={check1}
-                            onPress={() => setCheck1(!check1)}
+                            checked={checkNoLeaderboard}
+                            onPress={() => setCheckNoLeaderboard(!checkNoLeaderboard)}
                             style={s.check}
                         />
 
@@ -87,7 +89,7 @@ export default function Signup({navigation}: any){
                             <Button
                                 title='Registrarse'
                                 onPress={async () => {
-                                    if (!email || !contraseña || !name || !apellido || !user) {
+                                    if (!email || !contraseña || !name || !lastName || !user) {
                                         Alert.alert("Please complete all fields correctly.");
                                         return;
                                     }
@@ -96,16 +98,20 @@ export default function Signup({navigation}: any){
                                         const userCredential = await createUserWithEmailAndPassword(auth, email, contraseña);
                                         const userId = userCredential.user.uid;
 
-                                        await addDoc(collection(db, 'users'), {
+                                        await setDoc(doc(db, "users", userId), {
                                             uid: userId,
-                                            nombre: name,
-                                            apellido: apellido,
-                                            correo: email,
-                                            usuario: user,
+                                            name: name,
+                                            last_name: lastName,
+                                            mail: email,
+                                            user: user,
+                                            noLeaderboard: checkNoLeaderboard,
+                                            anonymous: checkAnonymous,
+                                            role: "user",
+                                            createdAt: new Date()
                                         });
 
                                         Alert.alert("User created correctly! Please sign in...");
-                                        navigation.navigate("Login");
+                                        navigation.navigate("Homepage");
                                     } catch (error: any) {
                                         console.error("Signup error:", error);
                                         Alert.alert("Please complete all fields correctly.");
