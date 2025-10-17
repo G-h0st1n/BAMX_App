@@ -13,35 +13,43 @@ interface CampaingUserTotals {
     campaing_id: string;
 }
 
+interface CampaignProduct {
+  id: string;
+  campaign_id: any; // Firestore DocumentReference
+  received_kg: number; 
+  campaignId: string;
+  product_name: string;
+  minimum_kg: number; // goal of kgs
+}
+
 //REPLACE DATA VARIABLES WITH FIREBASE ONES
 const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
+    {
+        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        title: 'First Item',
+    },
+    {
+        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+        title: 'Second Item',
   },
   {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+    },
 ];
 
 type ItemProps = {title: string};
 
 const Leaderboard = ({title}: ItemProps) => (
-  <View style={s.board}>
+    <View style={s.board}>
     <Text style={s.title}>{title}</Text>
   </View>
 );
 
 
 export default function Colectapage({route, navigation}: any){
-    const { campaign, products } = route.params;
-    
-    // progress specific chart to show how close to foal
+    const { campaign } = route.params;
+    const { products } = route.params as { products: CampaignProduct[] };
     
     // need to fetch user_product documents to get higher for leaderboard
     const [userProduct, setUserProduct] = useState<CampaingUserTotals[]>([]);
@@ -64,11 +72,15 @@ export default function Colectapage({route, navigation}: any){
         }
     })
 
-    //CONECT BARDATA TO FIREBASE
-    const barData = [{value: 150, label:'Arroz'}, {value: 300, label:'Frijol'}, {value: 260, label:'Aceite'}, {value: 100, label:'A'}, {value: 30, label:'B'}, {value: 26, label:'C'}];
+    const barData = products.map((p) =>({
+        value: p.received_kg ?? 0,
+        label: p.product_name ?? "Na",
+    }))
 
+    const numProducts = products.length || 1;
+    const dividedGoal = (campaign.goal_kg ?? 1000) / numProducts;
 
-    console.log(route.params)
+    //console.log(route.params)
     return(
         <View style={s.container}>
             <ImageBackground
@@ -105,24 +117,26 @@ export default function Colectapage({route, navigation}: any){
                     <View style={s.graphs}>
                         <BarChart 
                             data={barData}
-                            barWidth={24}
+                            barWidth={30}
                             noOfSections={4}
+                            maxValue={dividedGoal + 100}
                             barBorderRadius={3}
                             frontColor={'#5AB02F'}
                             yAxisThickness={0}
-                            xAxisThickness={0}
+                            xAxisThickness={1}
                             hideRules
                             showReferenceLine1
-                            referenceLine1Position={300}
+                            referenceLine1Position={dividedGoal}
                             referenceLine1Config={{
                                 color: 'gray',
                                 dashWidth: 5,
                                 dashGap: 4,
+                                labelText: String(dividedGoal) +"kg",
                             }}
-                            />;
+                            />
                     </View>
 
-                    <Text style={s.boardText}>TABLA DE PUNTAJES</Text>
+                    <Text style={s.boardText}>Ranking de Donaciones</Text>
 
                     <FlatList
                         data={DATA}

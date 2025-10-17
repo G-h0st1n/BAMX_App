@@ -21,7 +21,8 @@ interface CampaignProduct {
   campaign_id: any; // Firestore DocumentReference
   received_kg: number; 
   campaignId: string;
-  minimum_kg: string; // goal of kgs
+  product_name: string;
+  minimum_kg: number; // goal of kgs
 }
 
 var s = require('../styles/Homepage')
@@ -60,6 +61,7 @@ export default function Homepage({ navigation }: any) {
                     campaignId: (data.campaign_id as DocumentReference).id,
                 };
             });
+            setProducts(products);
 
             const campaignsWithProgress: (Campaign & { progress: number })[] = campaigns.map(
                 (campaign) => {
