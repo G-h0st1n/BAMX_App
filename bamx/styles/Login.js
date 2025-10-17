@@ -21,8 +21,8 @@ var loginStyle = React.StyleSheet.create({
     flex:4
   },
   backdrop_container: {
-    marginTop: verticalScale(200),
-    height:verticalScale(250),
+    marginTop: verticalScale(150),
+    height:verticalScale(220),
     padding: 15,
     margin: moderateScale(30),
     backgroundColor: '#FFFAD8',
@@ -32,7 +32,7 @@ var loginStyle = React.StyleSheet.create({
     margin:moderateScale(10)
   },
   headerText:{
-    bottom:verticalScale(-190),
+    bottom:verticalScale(-140),
     textAlign:'center',
     fontSize: moderateScale(25),
     color: '#FFFAD8',

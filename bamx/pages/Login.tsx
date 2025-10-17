@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import { Alert } from 'react-native';
 import {Text, View, Button, Image, TextInput, Pressable, ImageBackground} from 'react-native';
-import { CheckBox, Icon } from '@rneui/themed';
 import { auth } from '../App';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -71,14 +70,6 @@ export default function Login({navigation}: any){
                                     color='#FFAF00'
                                 />
                             </View>
-
-                            <CheckBox
-                                center
-                                title="No quiero aparecer en la leaderboard"
-                                checked={check1}
-                                onPress={() => setCheck1(!check1)}
-                                style={s.check}
-                            />
 
                         </View>
                 </ImageBackground>

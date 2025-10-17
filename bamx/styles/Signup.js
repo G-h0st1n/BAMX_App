@@ -21,8 +21,8 @@ var signupStyle = React.StyleSheet.create({
     flex:4
   },
   backdrop_container: {
-    marginTop: verticalScale(110),
-    height:verticalScale(340),
+    marginTop: verticalScale(60),
+    height:verticalScale(510),
     padding: moderateScale(15),
     margin:moderateScale(30),
     backgroundColor: '#FFFAD8',
@@ -32,7 +32,7 @@ var signupStyle = React.StyleSheet.create({
     margin:5
   },
   headerText:{
-    bottom:verticalScale(-90),
+    bottom:verticalScale(-50),
     textAlign:'center',
     fontSize: 25,
     color: '#FFFAD8',
@@ -52,6 +52,9 @@ var signupStyle = React.StyleSheet.create({
     bottom:verticalScale(-20),
     width:horizontalScale(25),
     height:verticalScale(25)
+  },
+  check:{
+    backgroundColor: '#FFFAD8'
   }
 });
 

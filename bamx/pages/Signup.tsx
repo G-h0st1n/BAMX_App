@@ -73,6 +73,8 @@ export default function Signup({navigation}: any){
                             onChangeText={text=>{
                                 setContraseña(text);
                             }}/>
+
+
                         <CheckBox
                             center
                             title="No quiero aparecer en la leaderboard"
@@ -80,6 +82,7 @@ export default function Signup({navigation}: any){
                             onPress={() => setCheck1(!check1)}
                             style={s.check}
                         />
+
                         <View style={s.button_container}>
                             <Button
                                 title='Registrarse'
