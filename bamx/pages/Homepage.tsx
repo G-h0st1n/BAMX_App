@@ -83,16 +83,6 @@ export default function Homepage({ navigation }: any) {
         fetchData();
     }, []);
 
-   /* const handleUserPress = () => {
-        if (user) {
-            // Si hay usuario logueado, ir a Userpage
-            navigation.navigate("Userpage");
-        } else {
-            // Si no hay usuario, ir a Login?
-            navigation.navigate("Login");
-        }
-    };*/
-
     return (
         <View style={s.container}>
             <ImageBackground

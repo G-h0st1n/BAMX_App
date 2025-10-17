@@ -60,6 +60,7 @@ export default function Colectapage({route, navigation}: any){
             setLoading(true);
             
             const userSnapshot = await getDocs(collection(db, "campaign_user_totals"));
+            console.log(userSnapshot);
             const userProdData: CampaingUserTotals[] = userSnapshot.docs.map((doc) => {
                 const data = doc.data() as CampaingUserTotals;
                 return {
@@ -69,9 +70,11 @@ export default function Colectapage({route, navigation}: any){
             })
             
             // filter through only campaing unser totals that reference the route params campaign
-            const relatedUsers = userProduct.filter((u) => u.campaing_id === campaign.id); 
+            const relatedUsers = userProdData.filter((u) => u.campaing_id === campaign.id); 
             setUserProduct(relatedUsers);
             console.log(userProduct);
+
+            setLoading(false);
         }
 
         fetchData();
