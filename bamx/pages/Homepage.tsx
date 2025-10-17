@@ -28,8 +28,9 @@ var s = require('../styles/Homepage')
 
 export default function Homepage({ navigation }: any) {
     const [data, setData] = useState<(Campaign & { progress: number })[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [products, setProducts] = useState<CampaignProduct[]>([]);
     const [user, setUser] = useState<any>(null); // Estado para el usuario
+    const [loading, setLoading] = useState(true);
 
     // Verificar estado de autenticación
     useEffect(() => {
@@ -147,7 +148,10 @@ export default function Homepage({ navigation }: any) {
                         endDate={item.end?.toDate?.().toLocaleDateString() ?? "N/A"}
                         progress={item.progress}
                         url={item.image_url}
-                        onPress={() => navigation.navigate("Colectapage", { campaignId: item.id })}
+                        onPress={() => {
+                            const relatedProducts = products.filter((p) => p.campaignId === item.id);
+                            navigation.navigate("Colectapage", {campaign: item, products: relatedProducts})
+                        }}
                     />
                 )}
             />
