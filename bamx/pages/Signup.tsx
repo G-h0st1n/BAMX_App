@@ -89,8 +89,8 @@ export default function Signup({navigation}: any){
                             <Button
                                 title='Registrarse'
                                 onPress={async () => {
-                                    if (!email || !contraseña || !name || !lastName || !user) {
-                                        Alert.alert("Please complete all fields correctly.");
+                                    if (!email || !contraseña || !name || !apellido || !user) {
+                                        Alert.alert("Completa los campos DE MANERA CORRECTA.");
                                         return;
                                     }
 
@@ -110,11 +110,11 @@ export default function Signup({navigation}: any){
                                             createdAt: new Date()
                                         });
 
-                                        Alert.alert("User created correctly! Please sign in...");
-                                        navigation.navigate("Homepage");
+                                        Alert.alert("Cuenta creada correctamente");
+                                        navigation.navigate("Login");
                                     } catch (error: any) {
                                         console.error("Signup error:", error);
-                                        Alert.alert("Please complete all fields correctly.");
+                                        Alert.alert("Porfavor completa los campos correctamente.");
                                     }
                                 }}
                                 color='#5BB02F'
