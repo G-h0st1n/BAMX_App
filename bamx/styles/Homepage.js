@@ -1,4 +1,15 @@
-'use strict';
+import { Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+
+const guidelineBaseWidth = 375;
+const guidelineBaseHeight = 812;
+
+const horizontalScale = (size) => (width / guidelineBaseWidth) * size;
+const verticalScale = (size) => (height / guidelineBaseHeight) * size;
+const moderateScale = (size, factor = 0.5) => size + (horizontalScale(size) - size) * factor;
+
+"use strict";
 
 var React = require('react-native');
 
@@ -33,14 +44,13 @@ var homeStyle = React.StyleSheet.create({
     flex:4
   },
   imageFit:{
-    width:412,
-    height:150,
+    width:horizontalScale(380),
+    height:verticalScale(100),
     position:'absolute',
-    bottom:-5,
+    bottom:verticalScale(-5),
   },
   button_container:{
-    margin:10,
-    marginBottom:2,
+    margin:4,
   }
 });
 

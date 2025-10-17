@@ -1,7 +1,7 @@
   import React, { useEffect, useState } from "react";
   import { db } from "../App";
   import { View, ScrollView, Text, StyleSheet, Image, Pressable, FlatList, Button } from "react-native";
-  import CollectaCard from "./CollectaCard";
+  import ColectaCard from "./ColectaCard";
   import { collection, getDocs, DocumentReference } from "firebase/firestore";
 
   interface Campaign {
@@ -14,12 +14,13 @@
     place: string;
     is_active: boolean;
   }
-
+  
   interface CampaignProduct {
     id: string;
     campaign_id: any; // Firestore DocumentReference
     received_kg: number;
     campaignId: string;
+    minimum_kg: string; // goal of kgs
   }
 
   var s = require('../styles/Homepage')
@@ -70,13 +71,13 @@
           //console.log("doxuments loaded =======================")
           //console.log("Campaigns:", campaigns);
           //console.log("Products:", products);
-
+/*
           console.log("=== Raw campaign_products ===");
           productsSnapshot.docs.forEach((doc) => {
             console.log(doc.id, doc.data());
           });
 
-          console.log("Processed productsData", productsData);
+          console.log("Processed productsData", productsData);*/
       }
       
       fetchData();
@@ -128,7 +129,7 @@
             data={data}
             keyExtractor={(item) => item.id}
             renderItem={({item}) => (
-              <CollectaCard
+              <ColectaCard
                 title={item.name}
                 startDate={item.start?.toDate?.().toLocaleDateString() ?? "N/A"}
                 endDate={item.end?.toDate?.().toLocaleDateString() ?? "N/A"}
