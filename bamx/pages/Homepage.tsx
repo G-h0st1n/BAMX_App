@@ -78,6 +78,7 @@ export default function Homepage({ navigation }: any) {
 
             setData(campaignsWithProgress);
             setLoading(false);
+            console.log(data)
         }
 
         fetchData();
