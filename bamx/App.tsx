@@ -8,6 +8,7 @@ import Homepage from "./pages/Homepage"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Userpage from "./pages/Userpage"
+import AddColecta from "./pages/AddColecta"
 
 import { initializeApp, getApps } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
@@ -39,8 +40,6 @@ initializeAuth(app, {
 export const auth = getAuth(app);
 const Stack = createNativeStackNavigator();
 
-
-
 export default function App() {
   return (
     <NavigationContainer>
@@ -64,6 +63,10 @@ export default function App() {
         <Stack.Screen 
           name="Userpage" 
           component={Userpage}
+        />
+        <Stack.Screen 
+          name="AddColecta" 
+          component={AddColecta}
         />
       </Stack.Navigator>
     </NavigationContainer>

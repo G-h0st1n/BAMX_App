@@ -89,7 +89,7 @@ export default function Signup({navigation}: any){
                             <Button
                                 title='Registrarse'
                                 onPress={async () => {
-                                    if (!email || !contraseña || !name || !apellido || !user) {
+                                    if (!email || !contraseña || !name || !lastName || !user) {
                                         Alert.alert("Completa los campos DE MANERA CORRECTA.");
                                         return;
                                     }

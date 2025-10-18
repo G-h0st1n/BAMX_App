@@ -33,7 +33,12 @@ var colectaStyle = React.StyleSheet.create({
     bottom:verticalScale(-15),
     width:moderateScale(25),
     height:verticalScale(25),
-    position:'relative'
+  },
+  addImg:{
+    width:moderateScale(60),
+    height:verticalScale(50),
+    marginLeft:verticalScale(230),
+    bottom:scale(-280)
   },
   headerImg: {
     width: moderateScale(420),
@@ -61,7 +66,7 @@ var colectaStyle = React.StyleSheet.create({
   desc:{
     backgroundColor: '#FFAF00',
     borderRadius: 8,
-    width:moderateScale(180*2),
+    width:moderateScale(172*2),
     height:verticalScale(90),
     alignContent:'center'
   },
