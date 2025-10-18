@@ -2,28 +2,27 @@ import { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator, Image, Pressable, ScrollView, Switch } from "react-native";
 import { auth, db } from '../App';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { collection, query, where, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, query, where, getDoc, updateDoc, doc } from 'firebase/firestore';
 
 // Importar estilos
 var s = require('../styles/Userpage');
 
 // Interface para los datos del usuario
 interface UserData {
-  nombre: string;
-  apellido: string;
-  correo: string;
-  usuario: string;
+  name: string;
+  last_name: string;
+  mail: string;
+  user: string;
+  role: string;
+  noLeaderboard?: boolean;
+  anonymous?: boolean;
 }
 
-// Datos predefinidos por nosotros
-const predefinedData = {
-  direccion: "Av. Principal #123, Col. Centro, CDMX, 06000",
-  rol: "voluntario" // Puedes cambiar a 'admin' o 'usuario' según necesites
-};
 
 export default function Userpage({ navigation }: any) {
   const [loading, setLoading] = useState(true);
-  const [isPublic, setIsPublic] = useState(true);
+  const [noLeaderboard, setNoLeaderboard] = useState(false);
+  const [anonymous, setAnonymous] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [currentUser, setCurrentUser] = useState<any>(null);
 
@@ -43,20 +42,17 @@ export default function Userpage({ navigation }: any) {
 
   const fetchUserData = async (userId: string) => {
     try {
-      const usersRef = collection(db, 'users');
-      const q = query(usersRef, where('uid', '==', userId));
-      const querySnapshot = await getDocs(q);
-      
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0];
-        const data = userDoc.data() as UserData;
+      const userDocRef = doc(db, "users", userId);
+      const userSnap = await getDoc(userDocRef);
+
+      if (userSnap.exists()) {
+        const data = userSnap.data() as UserData;
         setUserData(data);
-        
-        // Cargar configuración de privacidad si existe
-        const privacySetting = userDoc.data().isPublic;
-        if (privacySetting !== undefined) {
-          setIsPublic(privacySetting);
-        }
+
+        if (data.noLeaderboard !== undefined) setNoLeaderboard(data.noLeaderboard);
+        if (data.anonymous !== undefined) setAnonymous(data.anonymous);
+      } else {
+        console.warn("No user document found for UID:", userId);
       }
       setLoading(false);
     } catch (error) {
@@ -65,21 +61,13 @@ export default function Userpage({ navigation }: any) {
     }
   };
 
-  const updatePrivacySetting = async (value: boolean) => {
+  const updatePrivacySetting = async (field: "noLeaderboard" | "anonymous", value: boolean) => {
     if (!currentUser) return;
-    
     try {
-      const usersRef = collection(db, 'users');
-      const q = query(usersRef, where('uid', '==', currentUser.uid));
-      const querySnapshot = await getDocs(q);
-      
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0];
-        await updateDoc(doc(db, 'users', userDoc.id), {
-          isPublic: value
-        });
-        setIsPublic(value);
-      }
+      const userDocRef = doc(db, "users", currentUser.uid);
+      await updateDoc(userDocRef, { [field]: value });
+      if (field === "noLeaderboard") setNoLeaderboard(value);
+      else setAnonymous(value);
     } catch (error) {
       console.error("Error updating privacy setting:", error);
     }
@@ -146,18 +134,18 @@ export default function Userpage({ navigation }: any) {
 
         <View style={s.headerContent}>
           <View style={s.avatarContainer}>
-            <Text style={s.avatarSymbol}>{getRoleSymbol(predefinedData.rol)}</Text>
+            <Text style={s.avatarSymbol}>{getRoleSymbol(userData.role)}</Text>
           </View>
           <View style={s.userInfo}>
             <Text style={s.userName}>
-              {userData.nombre} {userData.apellido}
+              {userData.name} {userData.last_name}
             </Text>
             <Text style={s.userUsername}>
-              @{userData.usuario}
+              @{userData.name}
             </Text>
             <View style={s.roleBadge}>
               <Text style={s.roleText}>
-                {getRoleDisplay(predefinedData.rol)}
+                {getRoleDisplay(userData.role)}
               </Text>
             </View>
           </View>
@@ -174,16 +162,29 @@ export default function Userpage({ navigation }: any) {
             
             <View style={s.privacyContainer}>
               <View style={s.privacyTextContainer}>
-                <Text style={s.privacyTitle}>Mostrar en leaderboard público</Text>
+                <Text style={s.privacyTitle}>No quiero aparecer en la leaderboard</Text>
                 <Text style={s.privacySubtitle}>
-                  {isPublic ? 'Tu perfil será visible' : 'Tu perfil será privado'}
+                  {noLeaderboard ? 'Tu perfil no aparecerá en la leaderboard' : 'Tu perfil será visible'}
                 </Text>
               </View>
               <Switch
-                value={isPublic}
-                onValueChange={updatePrivacySetting}
+                value={noLeaderboard}
+                onValueChange={(value) => updatePrivacySetting("noLeaderboard", value)}
                 trackColor={{ false: '#767577', true: '#5BB02F' }}
-                thumbColor={isPublic ? '#f4f3f4' : '#f4f3f4'}
+              />
+            </View>
+            <View style={[s.privacyContainer, { marginTop: 15 }]}>
+              <View style={s.privacyTextContainer}>
+                <Text style={s.privacyTitle}>Quiero aparecer anónimamente</Text>
+                <Text style={s.privacySubtitle}>
+                  {anonymous ? 'Tu nombre será oculto en la leaderboard' : 'Tu nombre se mostrará normalmente'}
+                </Text>
+              </View>
+              <Switch
+                  value={anonymous}
+                  onValueChange={(value) => updatePrivacySetting("anonymous", value)}
+                  trackColor={{ false: '#767577', true: '#5BB02F' }}
+                  thumbColor={'#f4f3f4'}
               />
             </View>
           </View>
@@ -195,18 +196,18 @@ export default function Userpage({ navigation }: any) {
             <View style={s.infoCard}>
               <Text style={s.infoLabel}>Nombre completo</Text>
               <Text style={s.infoValue}>
-                {userData.nombre} {userData.apellido}
+                {userData.name} {userData.last_name}
               </Text>
             </View>
             
             <View style={s.infoCard}>
               <Text style={s.infoLabel}>Correo electrónico</Text>
-              <Text style={s.infoValue}>{userData.correo}</Text>
+              <Text style={s.infoValue}>{userData.mail}</Text>
             </View>
 
             <View style={s.infoCard}>
               <Text style={s.infoLabel}>Rol</Text>
-              <Text style={s.infoValue}>{getRoleDisplay(predefinedData.rol)}</Text>
+              <Text style={s.infoValue}>{getRoleDisplay(userData.role)}</Text>
             </View>
           </View>
 
@@ -216,23 +217,12 @@ export default function Userpage({ navigation }: any) {
             
             <View style={s.infoCard}>
               <Text style={s.infoLabel}>Username</Text>
-              <Text style={s.infoValue}>@{userData.usuario}</Text>
+              <Text style={s.infoValue}>@{userData.user}</Text>
             </View>
             
             <View style={s.infoCard}>
               <Text style={s.infoLabel}>User ID</Text>
               <Text style={s.userIdText}>{currentUser?.uid}</Text>
-            </View>
-          </View>
-
-          {/* Dirección (predefinida) */}
-          <View style={s.section}>
-            <Text style={s.sectionTitle}>Dirección</Text>
-            
-            <View style={s.addressCard}>
-              <Text style={s.addressText}>
-                {predefinedData.direccion}
-              </Text>
             </View>
           </View>
 

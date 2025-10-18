@@ -4,7 +4,7 @@ import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 var React = require('react-native');
 
-var signupStyle = React.StyleSheet.create({
+var addStyle = React.StyleSheet.create({
   container: {
     flex: 1
   },
@@ -36,7 +36,7 @@ var signupStyle = React.StyleSheet.create({
     borderWidth:2,
     borderColor:'#B3B3B3',
     borderRadius:8,
-    marginBottom:verticalScale(16)
+    marginBottom:verticalScale(8)
   },
   goBackImg:{
     marginLeft:moderateScale(15),
@@ -44,9 +44,6 @@ var signupStyle = React.StyleSheet.create({
     width:moderateScale(25),
     height:verticalScale(25)
   },
-  check:{
-    backgroundColor: '#FFFAD8'
-  }
 });
 
-module.exports = signupStyle;
+module.exports = addStyle;

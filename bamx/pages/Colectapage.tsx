@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { db } from "../App";
-import { View, Text, ActivityIndicator, Image, Pressable, FlatList, ImageBackground } from "react-native";
+import { View, Text, TouchableOpacity, Image, Pressable, FlatList, ImageBackground } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 import { collection, getDocs, DocumentReference } from "firebase/firestore";
+import { Button } from "@rneui/base";
 
 var s = require('../styles/Colectapage')
 
@@ -45,7 +46,6 @@ const Leaderboard = ({title}: ItemProps) => (
     <Text style={s.title}>{title}</Text>
   </View>
 );
-
 
 export default function Colectapage({route, navigation}: any){
     const { campaign } = route.params;
@@ -109,11 +109,26 @@ export default function Colectapage({route, navigation}: any){
                             style={s.goBackImg}
                             />
                     </Pressable>
+
+
                 </ImageBackground>
                 
                 <View style={s.header}>
                     <Text style={s.headerText}>{campaign?.name ?? "Unknown campaign"}</Text>
                     <Text style={s.subText}>{campaign.start?.toDate?.().toLocaleDateString() ?? "N/A"} - {campaign.end?.toDate?.().toLocaleDateString() ?? "N/A"}</Text>
+
+
+                    <Pressable
+                            onPress = {() => {
+                            navigation.navigate("addColecta")
+                        }}>
+
+                            <Image
+                                source={require('../assets/addColecta.png')}
+                                style={s.addImg}
+                            />        
+                    </Pressable>
+
                 </View>
 
                 <View style={s.content}>
