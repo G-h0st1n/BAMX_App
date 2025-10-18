@@ -78,7 +78,6 @@ export default function Homepage({ navigation }: any) {
 
             setData(campaignsWithProgress);
             setLoading(false);
-            console.log(data)
         }
 
         fetchData();
@@ -137,7 +136,7 @@ export default function Homepage({ navigation }: any) {
                         url={item.image_url}
                         onPress={() => {
                             const relatedProducts = products.filter((p) => p.campaignId === item.id);
-                            navigation.navigate("Colectapage", {campaign: item, products: relatedProducts})
+                            navigation.replace("Colectapage", {campaign: item, products: relatedProducts})
                         }}
                     />
                 )}

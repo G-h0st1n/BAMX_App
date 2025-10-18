@@ -2,16 +2,28 @@ import { useEffect, useState } from "react";
 import { db } from "../App";
 import { View, Text, TouchableOpacity, Image, Pressable, FlatList, ImageBackground } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
-import { collection, getDocs, DocumentReference } from "firebase/firestore";
+import { collection, getDocs, getDoc, query, where, doc } from "firebase/firestore";
 import { Button } from "@rneui/base";
 
 var s = require('../styles/Colectapage')
 
 interface CampaingUserTotals {
     id: string;
-    total_g: number;
-    user_id: string;
-    campaing_id: string;
+    total_kg: number;
+    user_id: any;
+    campaing_id: any;
+    user?: User | null; 
+}
+
+interface User {
+  id: string;
+  username: string;
+}
+
+interface LeaderboardEntry {
+  id: string;
+  total_kg: number;
+  username: User | null;
 }
 
 interface CampaignProduct {
@@ -23,28 +35,12 @@ interface CampaignProduct {
   minimum_kg: number; // goal of kgs
 }
 
-//REPLACE DATA VARIABLES WITH FIREBASE ONES
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'Usuario01',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Usuario02',
-  },
-  {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Usuario03',
-    },
-];
+type ItemProps = {rank: number, title: string, total_kg: number;};
 
-type ItemProps = {title: string};
-
-const Leaderboard = ({title}: ItemProps) => (
+const Leaderboard = ({title, total_kg, rank}: ItemProps) => (
     <View style={s.board}>
-    <Text style={s.title}>{title}</Text>
-  </View>
+        <Text style={s.title}>{rank}. {title} — {total_kg} kg</Text>
+    </View>
 );
 
 export default function Colectapage({route, navigation}: any){
@@ -52,33 +48,62 @@ export default function Colectapage({route, navigation}: any){
     const { products } = route.params as { products: CampaignProduct[] };
     
     // need to fetch user_product documents to get higher for leaderboard
-    const [userProduct, setUserProduct] = useState<CampaingUserTotals[]>([]);
+    const [userLeaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
         
     useEffect(() => {
-        async function fetchData(){
+        async function fetchLeaderboard() {
             setLoading(true);
-            
-            const userSnapshot = await getDocs(collection(db, "campaign_user_totals"));
-            console.log(userSnapshot);
-            const userProdData: CampaingUserTotals[] = userSnapshot.docs.map((doc) => {
-                const data = doc.data() as CampaingUserTotals;
-                return {
-                    ...data,
-                    id: doc.id,
-                }
-            })
-            
-            // filter through only campaing unser totals that reference the route params campaign
-            const relatedUsers = userProdData.filter((u) => u.campaing_id === campaign.id); 
-            setUserProduct(relatedUsers);
-            console.log(userProduct);
+            const campaignRef = doc(db, "campaign", campaign.id);
+            const q = query(
+                collection(db, "campaign_user_totals"),
+                where("campaign_id", "==", campaignRef),
+                //where
+            );
+            const snapshot = await getDocs(q);
 
-            setLoading(false);
+            const totals = snapshot.docs.map((d) => {
+                const data = d.data() as Omit<CampaingUserTotals, "id">;
+                return {
+                    id: d.id,
+                    ...data,
+                };
+            });
+
+            const leaderboardWithUsers = await Promise.all(
+                totals.map(async (t) => {
+                    let userData: User | null = null;
+
+                    let userRef;
+                    if (typeof t.user_id === "string") {
+                        userRef = doc(db, "users", t.user_id);
+                    } else {
+                        userRef = t.user_id;
+                    }
+
+                    if (userRef) {
+                        const userDoc = await getDoc(userRef);
+                        if (userDoc.exists()) {
+                            const data = userDoc.data() as any;
+                            userData = { id: userDoc.id, username: data.user };
+                        }
+                    }
+                    //console.log("Fetched user:", userData); 
+
+                    return {
+                        id: t.id,
+                        total_kg: t.total_kg,
+                        username: userData,
+                    };
+                })
+            );
+
+            leaderboardWithUsers.sort((a, b) => b.total_kg - a.total_kg);
+            setLeaderboard(leaderboardWithUsers);
         }
 
-        fetchData();
-    }, []);
+        fetchLeaderboard();
+    }, [campaign.id]);
 
     const barData = products.map((p) =>({
         value: p.received_kg ?? 0,
@@ -101,7 +126,7 @@ export default function Colectapage({route, navigation}: any){
                 >
                     <Pressable 
                         onPress = {() => {
-                            navigation.navigate("Homepage")
+                            navigation.replace("Homepage")
                         }}
                         >
                         <Image
@@ -120,7 +145,7 @@ export default function Colectapage({route, navigation}: any){
 
                     <Pressable
                             onPress = {() => {
-                            navigation.navigate("AddColecta", {campaign: campaign,products:products})
+                            navigation.replace("AddColecta", {campaign: campaign,products:products})
                         }}>
 
                             <Image
@@ -162,8 +187,14 @@ export default function Colectapage({route, navigation}: any){
                     <Text style={s.boardText}>Ranking de donadores</Text>
 
                     <FlatList
-                        data={DATA}
-                        renderItem={({item}) => <Leaderboard title={item.title} />}
+                        data={userLeaderboard}
+                        renderItem={({item, index}) => 
+                            <Leaderboard 
+                                rank={index + 1 }
+                                title={item.username?.username ?? "Unknown"} 
+                                total_kg={item.total_kg} 
+                            />
+                        }
                         keyExtractor={item => item.id}
                     />
                 </View>

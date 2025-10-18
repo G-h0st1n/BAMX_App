@@ -33,7 +33,7 @@ export default function AddColecta({route,navigation}:any){
             >
                 <Pressable 
                     onPress = {() => {
-                        navigation.navigate("Colectapage", {campaign:campaign,products:products})
+                        navigation.replace("Colectapage", {campaign:campaign,products:products})
                     }}
                 >
                     <Image
