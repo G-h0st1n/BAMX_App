@@ -7,14 +7,19 @@ import { Button } from "@rneui/base";
 
 var s = require('../styles/AddColecta')
 
-interface CampaingUserTotals {
-    id: string;
-    total_g: number;
-    user_id: string;
-    campaing_id: string;
+interface CampaignProduct {
+  id: string;
+  campaign_id: any; // Firestore DocumentReference
+  received_kg: number; 
+  campaignId: string;
+  product_name: string;
+  minimum_kg: number; // goal of kgs
 }
 
-export default function AddColecta({navigation}:any){
+export default function AddColecta({route,navigation}:any){
+    const { campaign } = route.params;
+    const { products } = route.params as { products: CampaignProduct[] };
+
     const[user, setUser] = useState("");    
     const[userID,setUserID] = useState("");
     const[donation, setDonation] = useState("");
@@ -28,7 +33,7 @@ export default function AddColecta({navigation}:any){
             >
                 <Pressable 
                     onPress = {() => {
-                        navigation.navigate("Colectapage")
+                        navigation.navigate("Colectapage", {campaign:campaign,products:products})
                     }}
                 >
                     <Image
@@ -80,8 +85,7 @@ export default function AddColecta({navigation}:any){
                             <Button
                                 title='Registrar donacion'
                                 color='#E6233F'
-                                />                    
-                                       
+                                />                               
                         </View>
                     </View>
             </ImageBackground>
