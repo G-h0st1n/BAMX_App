@@ -1,13 +1,4 @@
-import { Dimensions } from 'react-native';
-
-const { width, height } = Dimensions.get('window');
-
-const guidelineBaseWidth = 375;
-const guidelineBaseHeight = 812;
-
-const horizontalScale = (size) => (width / guidelineBaseWidth) * size;
-const verticalScale = (size) => (height / guidelineBaseHeight) * size;
-const moderateScale = (size, factor = 0.5) => size + (horizontalScale(size) - size) * factor;
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 "use strict";
 
@@ -22,7 +13,7 @@ var signupStyle = React.StyleSheet.create({
   },
   backdrop_container: {
     marginTop: verticalScale(60),
-    height:verticalScale(510),
+    height:verticalScale(350),
     padding: moderateScale(15),
     margin:moderateScale(30),
     backgroundColor: '#FFFAD8',
@@ -34,7 +25,7 @@ var signupStyle = React.StyleSheet.create({
   headerText:{
     bottom:verticalScale(-50),
     textAlign:'center',
-    fontSize: 25,
+    fontSize: scale(25),
     color: '#FFFAD8',
     fontFamily:'sans-serif-medium'
   }, 
@@ -48,9 +39,9 @@ var signupStyle = React.StyleSheet.create({
     marginBottom:verticalScale(16)
   },
   goBackImg:{
-    marginLeft:horizontalScale(15),
+    marginLeft:moderateScale(15),
     bottom:verticalScale(-20),
-    width:horizontalScale(25),
+    width:moderateScale(25),
     height:verticalScale(25)
   },
   check:{

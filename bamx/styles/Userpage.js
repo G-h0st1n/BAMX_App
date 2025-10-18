@@ -1,4 +1,6 @@
-'use strict';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+
+"use strict";
 
 var React = require('react-native');
 
@@ -14,7 +16,7 @@ var userpageStyle = React.StyleSheet.create({
     backgroundColor: "#FFFAD8",
   },
   loadingText: {
-    marginTop: 10,
+    marginTop: moderateScale(10),
     color: "#78350F",
   },
   errorContainer: {
@@ -22,103 +24,103 @@ var userpageStyle = React.StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFFAD8",
-    padding: 20,
+    padding: moderateScale(20),
   },
   errorText: {
     color: "#78350F",
-    fontSize: 16,
+    fontSize: scale(16),
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: verticalScale(20),
   },
   logoutButton: {
-    marginTop: 20,
-    padding: 15,
+    marginTop: verticalScale(20),
+    padding: moderateScale(15),
     backgroundColor: "#FF6B6B",
     borderRadius: 8,
     alignItems: "center",
   },
   logoutButtonText: {
     color: "white",
-    fontSize: 16,
+    fontSize: scale(16),
     fontWeight: "bold",
   },
   header: {
     backgroundColor: "#22C55E",
-    paddingTop: 30,
-    paddingBottom: 15,
-    paddingHorizontal: 20,
+    paddingTop: verticalScale(30),
+    paddingBottom: verticalScale(15),
+    paddingHorizontal: moderateScale(20),
   },
   goBackButton: {
     position: "absolute",
-    top: 70,
-    left: 320,
+    top: verticalScale(70),
+    left: moderateScale(320),
     zIndex: 1,
   },
   goBackImg: {
-    width: 24,
-    height: 24,
+    width: moderateScale(24),
+    height: verticalScale(24),
   },
   headerContent: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 15,
+    marginBottom: verticalScale(15),
   },
   avatarContainer: {
-    width: 80,
-    height: 80,
+    width: moderateScale(80),
+    height: verticalScale(80),
     backgroundColor: "white",
     borderRadius: 40,
     justifyContent: "center",
     alignItems: "center",
-    marginRight: 20,
+    marginRight: moderateScale(20),
   },
   avatarSymbol: {
-    fontSize: 32,
+    fontSize: scale(32),
   },
   userInfo: {
     flex: 1,
   },
   userName: {
-    fontSize: 24,
+    fontSize:scale(24),
     fontWeight: "bold",
     color: "white",
-    marginBottom: 4,
+    marginBottom: verticalScale(4),
   },
   userUsername: {
-    fontSize: 18,
+    fontSize: scale(18),
     color: "white",
     opacity: 0.9,
-    marginBottom: 8,
+    marginBottom: verticalScale(8),
   },
   roleBadge: {
     backgroundColor: "rgba(255,255,255,0.3)",
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: moderateScale(12),
+    paddingVertical: verticalScale(6),
     borderRadius: 16,
     alignSelf: "flex-start",
   },
   roleText: {
-    fontSize: 14,
+    fontSize: scale(14),
     color: "white",
     fontWeight: "600",
   },
   scrollView: {
     flex: 1,
-    paddingBottom: 140,
-    paddingHorizontal: 20,
-    marginTop: -10,
+    paddingBottom: verticalScale(140),
+    paddingHorizontal: moderateScale(20),
+    marginTop: verticalScale(-10),
   },
   contentContainer: {
     backgroundColor: "white",
-    padding: 20,
+    padding: moderateScale(20),
     borderRadius: 12,
-    marginTop: 10,
+    marginTop: verticalScale(10),
   },
   section: {
-    marginBottom: 25,
+    marginBottom: verticalScale(25),
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: scale(18),
     fontWeight: "bold",
     color: "#78350F",
     marginBottom: 12,
@@ -135,56 +137,47 @@ var userpageStyle = React.StyleSheet.create({
     flex: 1,
   },
   privacyTitle: {
-    fontSize: 14,
+    fontSize: scale(14),
     color: "#3F1D0B",
     fontWeight: "600",
   },
   privacySubtitle: {
-    fontSize: 12,
+    fontSize: scale(12),
     color: "#78350F",
-    marginTop: 4,
+    marginTop: verticalScale(4),
   },
   infoCard: {
     backgroundColor: "#FFC64A",
-    padding: 12,
+    padding: moderateScale(12),
     borderRadius: 8,
-    marginBottom: 8,
+    marginBottom: verticalScale(8),
   },
   infoLabel: {
-    fontSize: 12,
+    fontSize: scale(12),
     color: "#3F1D0B",
     fontWeight: "600",
   },
   infoValue: {
-    fontSize: 14,
+    fontSize: scale(14),
     color: "#78350F",
     fontWeight: "bold",
   },
   userIdText: {
-    fontSize: 12,
+    fontSize: scale(12),
     color: "#78350F",
     fontWeight: "bold",
   },
   addressCard: {
     backgroundColor: "#FFC64A",
-    padding: 12,
+    padding: moderateScale(12),
     borderRadius: 8,
-    marginBottom: 8,
+    marginBottom: verticalScale(8),
   },
   addressText: {
-    fontSize: 14,
+    fontSize: scale(14),
     color: "#78350F",
     fontWeight: "bold",
     textAlign: "left",
-  },
-  footer: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-  },
-  footerImage: {
-    width: "100%",
-    height: 120,
   }
 });
 

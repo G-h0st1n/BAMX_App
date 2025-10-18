@@ -1,13 +1,4 @@
-import { Dimensions } from 'react-native';
-
-const { width, height } = Dimensions.get('window');
-
-const guidelineBaseWidth = 375;
-const guidelineBaseHeight = 812;
-
-const horizontalScale = (size) => (width / guidelineBaseWidth) * size;
-const verticalScale = (size) => (height / guidelineBaseHeight) * size;
-const moderateScale = (size, factor = 0.5) => size + (horizontalScale(size) - size) * factor;
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 "use strict";
 
@@ -22,28 +13,37 @@ var homeStyle = React.StyleSheet.create({
   },
   header: {
     backgroundColor: "#22C55E",
-    paddingVertical: 20,
-    paddingHorizontal: 8,
+    height: verticalScale(60),
+    width: moderateScale(380),
+    padding:moderateScale(10),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   headerText: {
     color: "#fff",
-    fontSize: 30,
+    fontSize: scale(20),
     fontWeight: "bold",
     textAlign: "left",
   },
   userImage: {
-    width: 50,
-    height: 50,
+    width: moderateScale(50),
+    height: verticalScale(50),
     borderRadius: 25,
   },
   scrollContent: {
-    padding: 16,
+    padding: moderateScale(16),
   },
   button_container:{
-    margin:4,
+    width:moderateScale(120),
+    padding:moderateScale(5),
+    height:verticalScale(60),
+    marginTop:verticalScale(20)
+  },
+  button_add:{
+    marginTop: 20, 
+    marginBottom: 40, 
+    alignItems: "center" 
   }
 });
 

@@ -90,7 +90,7 @@ export default function Homepage({ navigation }: any) {
                 style={s.bg}
             >
             <View style={s.header}>
-                <Text style={s.headerText}>BAMX App</Text>
+                <Text style={s.headerText}>DONATON</Text>
 
                 {/* Show profile icon ONLY if user is logged in */}
                 {user && (
@@ -141,10 +141,10 @@ export default function Homepage({ navigation }: any) {
                     />
                 )}
                 ListFooterComponent={
-                    <View style={{ marginTop: 20, marginBottom: 40, alignItems: "center" }}>
+                    <View style={s.button_add}>
                         <Button
                             title="Añadir Colecta"
-                            color="#28A745" // green
+                            color="#28A745"
                             onPress={() => navigation.navigate("CreateColecta")}
                         />
                     </View>
