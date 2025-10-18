@@ -27,15 +27,15 @@ interface CampaignProduct {
 const DATA = [
     {
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Item',
+        title: 'Usuario01',
     },
     {
         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Item',
+        title: 'Usuario02',
   },
   {
       id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
+      title: 'Usuario03',
     },
 ];
 
@@ -120,11 +120,11 @@ export default function Colectapage({route, navigation}: any){
 
                     <Pressable
                             onPress = {() => {
-                            navigation.navigate("addColecta")
+                            navigation.navigate("AddColecta", {campaign: campaign,products:products})
                         }}>
 
                             <Image
-                                source={require('../assets/addColecta.png')}
+                                source={require('../assets/addButton.png')}
                                 style={s.addImg}
                             />        
                     </Pressable>
@@ -159,7 +159,7 @@ export default function Colectapage({route, navigation}: any){
                             />
                     </View>
 
-                    <Text style={s.boardText}>Ranking de Donaciones</Text>
+                    <Text style={s.boardText}>Ranking de donadores</Text>
 
                     <FlatList
                         data={DATA}

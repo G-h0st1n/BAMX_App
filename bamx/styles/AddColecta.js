@@ -12,18 +12,18 @@ var addStyle = React.StyleSheet.create({
     flex:4
   },
   backdrop_container: {
-    marginTop: verticalScale(60),
-    height:verticalScale(350),
+    marginTop: verticalScale(120),
+    height:verticalScale(250),
     padding: moderateScale(15),
     margin:moderateScale(30),
     backgroundColor: '#FFFAD8',
     borderRadius: 8,
   },
     button_container:{
-    margin:5
+    margin:5,
   },
   headerText:{
-    bottom:verticalScale(-50),
+    bottom:verticalScale(-100),
     textAlign:'center',
     fontSize: scale(25),
     color: '#FFFAD8',
@@ -35,12 +35,12 @@ var addStyle = React.StyleSheet.create({
   forumText:{
     borderWidth:2,
     borderColor:'#B3B3B3',
-    borderRadius:8,
+    borderRadius:4,
     marginBottom:verticalScale(8)
   },
   goBackImg:{
-    marginLeft:moderateScale(15),
-    bottom:verticalScale(-20),
+    marginLeft:moderateScale(28),
+    bottom:verticalScale(-80),
     width:moderateScale(25),
     height:verticalScale(25)
   },
