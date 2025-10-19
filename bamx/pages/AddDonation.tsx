@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { db } from "../App";
 import { View, Text, TouchableOpacity, Image, Pressable, TextInput, ImageBackground } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
-import { doc, getDoc, setDoc, updateDoc, increment } from "firebase/firestore";
+import { doc, getDocs, setDoc, updateDoc, increment, query, where, collection } from "firebase/firestore";
 import { Button } from "@rneui/base";
 
 var s = require('../styles/AddDonation')
@@ -92,11 +92,16 @@ export default function AddDonation({route,navigation}:any){
                                     return;
                                 }
                                 
-                                const campaingDoc = doc(db, "campaigns", campaign.id);
+                                const campaignDoc = doc(db, "campaign", campaign.id);
                                 const userDoc = doc(db, "users", userID);
-                                const campUserTotalDoc = doc(db, "campaign_user_totals", `${campaign.id}_${userID}`);
+
+                                const totalsQuery = query(
+                                    collection(db, "campaign_user_totals"),
+                                    where("campaign_id", "==", campaignDoc),
+                                    where("user_id", "==", userDoc)
+                                );
                                 
-                                const snapshot = await getDoc(campUserTotalDoc);
+                                const snapshot = await getDocs(totalsQuery);
                                 
                                 // update campaign product
                                 const matchedProduct = products.find(
@@ -115,19 +120,19 @@ export default function AddDonation({route,navigation}:any){
                                 });
 
                                 // create campaign user totals or update it
-                                if(snapshot.exists()){
-                                    await updateDoc(campUserTotalDoc, {
+                                if(!snapshot.empty){
+                                    const DocRef = snapshot.docs[0].ref;
+                                    await updateDoc(DocRef, {
                                         total_kg: increment(parseFloat(quantity))
                                     });
-                                    alert("Donación registrada");
                                 } else{
-                                    await setDoc(campUserTotalDoc, {
-                                        campaign_id: campaingDoc,
+                                    await setDoc(doc(collection(db, "campaign_user_totals")), {
+                                        campaign_id: campaignDoc,
                                         user_id: userDoc,
                                         total_kg: parseFloat(quantity)
                                     });
-                                    alert("Donación registrada");
                                 }
+                                alert("Donación registrada");
                                 
                                 setUser("");
                                 setUserID("");
