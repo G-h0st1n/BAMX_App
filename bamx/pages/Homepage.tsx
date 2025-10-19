@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db, auth } from "../App";
 import { View, Text, Image, Pressable, FlatList, Button, ImageBackground } from "react-native";
 import ColectaCard from "./ColectaCard";
-import { collection, getDocs, DocumentReference } from "firebase/firestore";
+import { collection, getDocs,  query, where, DocumentReference  } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 interface Campaign {
@@ -33,13 +33,38 @@ export default function Homepage({ navigation }: any) {
     const [products, setProducts] = useState<CampaignProduct[]>([]);
     const [user, setUser] = useState<any>(null); // Estado para el usuario
     const [loading, setLoading] = useState(true);
+    const [role, setRole] = useState<string | null>(null);
 
     // Verificar estado de autenticación
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             setUser(currentUser);
-            console.log("Estado de autenticación:", currentUser ? "Sesión iniciada" : "No hay sesión");
-        }); 
+
+            if (currentUser){
+                try {
+                    const q = query(
+                        collection(db, "users"),
+                        where("uid", "==", currentUser.uid)
+                    );
+
+                    const snapshot = await getDocs(q);
+
+                    if(!snapshot.empty) {
+                        const userData = snapshot.docs[0].data();
+                        setRole(userData.role || null);
+                        console.log("Rol del usuario:", userData.role);
+                    } else {
+                        console.log("No user doc found");
+                        setRole(null);
+                    }
+                } catch (error) {
+                    console.error("Error al obtener el rol:", error);
+                    setRole(null);
+                }
+            } else {
+                setRole(null);
+            }
+        });
         return unsubscribe; // Limpiar suscripción al desmontar
     }, []);
 
@@ -141,6 +166,7 @@ export default function Homepage({ navigation }: any) {
                     />
                 )}
                 ListFooterComponent={
+                role === "admin" ? (
                     <View style={{ marginTop: 20, marginBottom: 40, alignItems: "center" }}>
                         <Button
                             title="Añadir Colecta"
@@ -148,6 +174,7 @@ export default function Homepage({ navigation }: any) {
                             onPress={() => navigation.navigate("AddColecta")}
                         />
                     </View>
+                ) : null
                 }
             />
             </ImageBackground>
