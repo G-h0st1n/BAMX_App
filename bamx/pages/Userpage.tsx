@@ -204,11 +204,6 @@ export default function Userpage({ navigation }: any) {
               <Text style={s.infoLabel}>Correo electrónico</Text>
               <Text style={s.infoValue}>{userData.mail}</Text>
             </View>
-
-            <View style={s.infoCard}>
-              <Text style={s.infoLabel}>Rol</Text>
-              <Text style={s.infoValue}>{getRoleDisplay(userData.role)}</Text>
-            </View>
           </View>
 
           {/* Información de Cuenta */}
