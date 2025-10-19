@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Alert, Text, View, Button, Image, TextInput, Pressable, ScrollView } from 'react-native';
+import {collection, addDoc, Timestamp} from "firebase/firestore";
+import { db } from "../App";
+
 var s = require('../styles/AddColecta');
 
 export default function AddColecta({ navigation }: any) {
@@ -24,6 +27,11 @@ export default function AddColecta({ navigation }: any) {
             formateado = limpio.slice(0, 2) + '/' + limpio.slice(2, 4) + '/' + limpio.slice(4, 8);
         }
         return formateado;
+    };
+
+    const parseFecha = (fechaStr: string) => {
+        const [dia, mes, año] = fechaStr.split("/");
+        return new Date(Number(año), Number(mes) - 1, Number(dia));
     };
 
     return (
@@ -93,7 +101,8 @@ export default function AddColecta({ navigation }: any) {
                     <View style={s.button_container}>
                         <Button
                             title='Crear Colecta'
-                            onPress={() => {
+                            color='#5BB02F'
+                            onPress={async () => {
                                 if (!nombre || !lugar || !fechaInicio || !fechaFin || !goalKG || !descripcion) {
                                     Alert.alert("Por favor completa todos los campos");
                                     return;
@@ -104,10 +113,30 @@ export default function AddColecta({ navigation }: any) {
                                     return;
                                 }
 
+                                try {
+                                    const nuevaColecta = {
+                                        name: nombre,
+                                        place: lugar,
+                                        start: Timestamp.fromDate(parseFecha(fechaInicio)),
+                                        end: Timestamp.fromDate(parseFecha(fechaFin)),
+                                        goal_kg: Number(goalKG),
+                                        description: descripcion,
+                                        image_url: "", // puedes agregarlo más adelante si usas upload
+                                        is_active: true,
+                                    };
+
+                                    await addDoc(collection(db, "campaign"), nuevaColecta);
+
+                                    Alert.alert(" Colecta creada correctamente");
+                                    navigation.navigate("Homepage");
+                                } catch (error) {
+                                    console.error("Error al crear la colecta:", error);
+                                    Alert.alert("Error al crear la colecta");
+
                                 Alert.alert("Colecta creada correctamente");
                                 navigation.navigate("Homepage");
+                                }
                             }}
-                            color='#5BB02F'
                         />
                     </View>
                 </View>
