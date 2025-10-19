@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { db } from "../App";
+import { db, auth } from "../App";
 import { View, Text, TouchableOpacity, Image, Pressable, FlatList, ImageBackground } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 import { collection, getDocs, getDoc, query, where, doc } from "firebase/firestore";
 import { Button } from "@rneui/base";
+
 
 var s = require('../styles/Colectapage')
 
@@ -53,6 +54,7 @@ export default function Colectapage({route, navigation}: any){
     // need to fetch user_product documents to get higher for leaderboard
     const [userLeaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
+    const [userRole, setUserRole] = useState<string | null>(null);
         
     useEffect(() => {
         async function fetchLeaderboard() {
@@ -63,6 +65,30 @@ export default function Colectapage({route, navigation}: any){
                 where("campaign_id", "==", campaignRef),
             );
             const snapshot = await getDocs(q);
+            
+            const userSnapshot = await getDocs(collection(db, "campaign_user_totals"));
+            console.log(userSnapshot);
+            const userProdData: CampaingUserTotals[] = userSnapshot.docs.map((doc) => {
+                const data = doc.data() as CampaingUserTotals;
+                return {
+                    ...data,
+                    id: doc.id,
+                }
+            })
+
+            const currentUser = auth.currentUser;
+            if(currentUser){
+                const userDocRef = doc(db, "users", currentUser.uid);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if(userDocSnap.exists()) {
+                    const data = userDocSnap.data();
+                    setUserRole(data.role || null);
+                    console.log("user Role:",data.role);
+                } else {
+                    console.log("Didnt find user doc")
+                }
+            }
 
             const totals = snapshot.docs.map((d) => {
                 const data = d.data() as Omit<CampaingUserTotals, "id">;
@@ -140,23 +166,29 @@ export default function Colectapage({route, navigation}: any){
 
 
                 </ImageBackground>
-                
+
                 <View style={s.header}>
-                    <Text style={s.headerText}>{campaign?.name ?? "Unknown campaign"}</Text>
-                    <Text style={s.subText}>{campaign.start?.toDate?.().toLocaleDateString() ?? "N/A"} - {campaign.end?.toDate?.().toLocaleDateString() ?? "N/A"}</Text>
+                    <Text style={s.headerText}>
+                        {campaign?.name ?? "Unknown campaign"}
+                    </Text>
+                    <Text style={s.subText}>
+                        {campaign.start?.toDate?.().toLocaleDateString() ?? "N/A"} - {campaign.end?.toDate?.().toLocaleDateString() ?? "N/A"}
+                    </Text>
 
-
+                    {(userRole === "voluntario" || userRole === "admin") && (
                     <Pressable
-                            onPress = {() => {
-                            navigation.replace("AddColecta", {campaign: campaign,products:products})
-                        }}>
-
-                            <Image
-                                source={require('../assets/addButton.png')}
-                                style={s.addImg}
-                            />        
+                        style={s.addButton}
+                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        onPress={() =>
+                            navigation.navigate("AddDonation", {campaign: campaign,products:products})
+                        }
+                    >
+                        <Image
+                            source={require('../assets/addButton.png')}
+                            style={s.addImg}
+                        />
                     </Pressable>
-
+                        )}
                 </View>
 
                 <View style={s.content}>

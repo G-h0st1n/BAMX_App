@@ -145,7 +145,7 @@ export default function Homepage({ navigation }: any) {
                         <Button
                             title="Añadir Colecta"
                             color="#28A745"
-                            onPress={() => navigation.navigate("CreateColecta")}
+                            onPress={() => navigation.replace("CreateColecta")}
                         />
                     </View>
                 }
