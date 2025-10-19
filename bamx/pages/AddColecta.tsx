@@ -121,7 +121,7 @@ export default function AddColecta({ navigation }: any) {
                                         end: Timestamp.fromDate(parseFecha(fechaFin)),
                                         goal_kg: Number(goalKG),
                                         description: descripcion,
-                                        image_url: "", // puedes agregarlo más adelante si usas upload
+                                        image_url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUdb_CmokFLWgMKHwvoWnjBqGGRbEocghdmA&s",
                                         is_active: true,
                                     };
 
