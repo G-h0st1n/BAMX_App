@@ -1,16 +1,33 @@
 import { useEffect, useState } from "react";
-import { db } from "../App";
-import { View, Text, ActivityIndicator, Image, Pressable, FlatList, ImageBackground } from "react-native";
+import { db, auth } from "../App";
+import { View, Text, TouchableOpacity, Image, Pressable, FlatList, ImageBackground } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
-import { collection, getDocs, DocumentReference } from "firebase/firestore";
+import { collection, getDocs, getDoc, query, where, doc } from "firebase/firestore";
+import { Button } from "@rneui/base";
+
 
 var s = require('../styles/Colectapage')
 
 interface CampaingUserTotals {
     id: string;
-    total_g: number;
-    user_id: string;
-    campaing_id: string;
+    total_kg: number;
+    user_id: any;
+    campaing_id: any;
+    user?: User | null; 
+}
+
+interface User {
+  id: string;
+  user: string;
+  anonymous?: boolean;
+  noLeaderboard?: boolean;
+  displayName?: string;
+}
+
+interface LeaderboardEntry {
+  id: string;
+  total_kg: number;
+  username: User | null;
 }
 
 interface CampaignProduct {
@@ -22,42 +39,32 @@ interface CampaignProduct {
   minimum_kg: number; // goal of kgs
 }
 
-//REPLACE DATA VARIABLES WITH FIREBASE ONES
-const DATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Item',
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Item',
-  },
-  {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
-    },
-];
+type ItemProps = {rank: number, title: string, total_kg: number;};
 
-type ItemProps = {title: string};
-
-const Leaderboard = ({title}: ItemProps) => (
+const Leaderboard = ({title, total_kg, rank}: ItemProps) => (
     <View style={s.board}>
-    <Text style={s.title}>{title}</Text>
-  </View>
+        <Text style={s.title}>{rank}. {title} — {total_kg} kg</Text>
+    </View>
 );
-
 
 export default function Colectapage({route, navigation}: any){
     const { campaign } = route.params;
     const { products } = route.params as { products: CampaignProduct[] };
     
     // need to fetch user_product documents to get higher for leaderboard
-    const [userProduct, setUserProduct] = useState<CampaingUserTotals[]>([]);
+    const [userLeaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
+    const [userRole, setUserRole] = useState<string | null>(null);
         
     useEffect(() => {
-        async function fetchData(){
+        async function fetchLeaderboard() {
             setLoading(true);
+            const campaignRef = doc(db, "campaign", campaign.id);
+            const q = query(
+                collection(db, "campaign_user_totals"),
+                where("campaign_id", "==", campaignRef),
+            );
+            const snapshot = await getDocs(q);
             
             const userSnapshot = await getDocs(collection(db, "campaign_user_totals"));
             console.log(userSnapshot);
@@ -68,17 +75,64 @@ export default function Colectapage({route, navigation}: any){
                     id: doc.id,
                 }
             })
-            
-            // filter through only campaing unser totals that reference the route params campaign
-            const relatedUsers = userProdData.filter((u) => u.campaing_id === campaign.id); 
-            setUserProduct(relatedUsers);
-            console.log(userProduct);
 
-            setLoading(false);
+            const currentUser = auth.currentUser;
+            if(currentUser){
+                const userDocRef = doc(db, "users", currentUser.uid);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if(userDocSnap.exists()) {
+                    const data = userDocSnap.data();
+                    setUserRole(data.role || null);
+                    console.log("user Role:",data.role);
+                } else {
+                    console.log("Didnt find user doc")
+                }
+            }
+
+            const totals = snapshot.docs.map((d) => {
+                const data = d.data() as Omit<CampaingUserTotals, "id">;
+                return {
+                    id: d.id,
+                    ...data,
+                };
+            });
+
+            const rawLeaderboard: (LeaderboardEntry | null)[] = await Promise.all(
+                totals.map(async (t) => {
+                    if (!t.user_id) return null;
+
+                    const userDoc = await getDoc(t.user_id);
+                    if (!userDoc.exists()) return null;
+
+                    const data = userDoc.data() as User;
+                    // ternary operator      condition      if tru if false new ternary 
+                    const displayName = data.noLeaderboard ? null : data.anonymous? "**********" : data.user
+                    if (!displayName) return null;
+
+                    const user: User = {
+                        ...data,
+                        id: userDoc.id,
+                        displayName,
+                    };
+
+                    return {
+                        id: t.id,
+                        total_kg: t.total_kg,
+                        username: user,
+                    };
+                })
+            );
+            
+            const leaderboardWithUsers: LeaderboardEntry[] = rawLeaderboard
+            .filter((entry): entry is LeaderboardEntry => entry !== null)
+            .sort((a, b) => b.total_kg - a.total_kg);
+
+            setLeaderboard(leaderboardWithUsers);
         }
 
-        fetchData();
-    }, []);
+        fetchLeaderboard();
+    }, [campaign.id]);
 
     const barData = products.map((p) =>({
         value: p.received_kg ?? 0,
@@ -101,7 +155,7 @@ export default function Colectapage({route, navigation}: any){
                 >
                     <Pressable 
                         onPress = {() => {
-                            navigation.navigate("Homepage")
+                            navigation.replace("Homepage")
                         }}
                         >
                         <Image
@@ -109,11 +163,32 @@ export default function Colectapage({route, navigation}: any){
                             style={s.goBackImg}
                             />
                     </Pressable>
+
+
                 </ImageBackground>
-                
+
                 <View style={s.header}>
-                    <Text style={s.headerText}>{campaign?.name ?? "Unknown campaign"}</Text>
-                    <Text style={s.subText}>{campaign.start?.toDate?.().toLocaleDateString() ?? "N/A"} - {campaign.end?.toDate?.().toLocaleDateString() ?? "N/A"}</Text>
+                    <Text style={s.headerText}>
+                        {campaign?.name ?? "Unknown campaign"}
+                    </Text>
+                    <Text style={s.subText}>
+                        {campaign.start?.toDate?.().toLocaleDateString() ?? "N/A"} - {campaign.end?.toDate?.().toLocaleDateString() ?? "N/A"}
+                    </Text>
+
+                    {(userRole === "voluntario" || userRole === "admin") && (
+                    <Pressable
+                        style={s.addButton}
+                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        onPress={() =>
+                            navigation.replace("AddDonation", {campaign: campaign,products:products})
+                        }
+                    >
+                        <Image
+                            source={require('../assets/addButton.png')}
+                            style={s.addImg}
+                        />
+                    </Pressable>
+                        )}
                 </View>
 
                 <View style={s.content}>
@@ -144,11 +219,17 @@ export default function Colectapage({route, navigation}: any){
                             />
                     </View>
 
-                    <Text style={s.boardText}>Ranking de Donaciones</Text>
+                    <Text style={s.boardText}>Ranking de donadores</Text>
 
                     <FlatList
-                        data={DATA}
-                        renderItem={({item}) => <Leaderboard title={item.title} />}
+                        data={userLeaderboard}
+                        renderItem={({item, index}) => 
+                            <Leaderboard 
+                                rank={index + 1 }
+                                title={item.username?.displayName ?? "Unknown"} 
+                                total_kg={item.total_kg} 
+                            />
+                        }
                         keyExtractor={item => item.id}
                     />
                 </View>

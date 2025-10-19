@@ -19,7 +19,7 @@ export default function Login({navigation}: any){
                 >
                     <Pressable 
                         onPress = {() => {
-                            navigation.navigate("Homepage")
+                            navigation.replace("Homepage")
                         }}
                     >
                         <Image
@@ -61,7 +61,7 @@ export default function Login({navigation}: any){
                                         try {
                                             await signInWithEmailAndPassword(auth, email, contraseña);
                                             Alert.alert("Signed in correctly");
-                                            navigation.navigate("Homepage");
+                                            navigation.replace("Homepage");
                                         } catch (error: any) {
                                             console.error("Login error:", error);
                                             Alert.alert("Email or password incorrect");

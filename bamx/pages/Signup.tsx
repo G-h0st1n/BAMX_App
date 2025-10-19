@@ -29,7 +29,7 @@ export default function Signup({navigation}: any){
             
                 <Pressable 
                     onPress = {() => {
-                        navigation.navigate("Homepage")
+                        navigation.replace("Homepage")
                     }}
                 >
                     <Image
@@ -89,7 +89,7 @@ export default function Signup({navigation}: any){
                             <Button
                                 title='Registrarse'
                                 onPress={async () => {
-                                    if (!email || !contraseña || !name || !apellido || !user) {
+                                    if (!email || !contraseña || !name || !lastName || !user) {
                                         Alert.alert("Completa los campos DE MANERA CORRECTA.");
                                         return;
                                     }
@@ -111,7 +111,7 @@ export default function Signup({navigation}: any){
                                         });
 
                                         Alert.alert("Cuenta creada correctamente");
-                                        navigation.navigate("Login");
+                                        navigation.replace("Login");
                                     } catch (error: any) {
                                         console.error("Signup error:", error);
                                         Alert.alert("Porfavor completa los campos correctamente.");

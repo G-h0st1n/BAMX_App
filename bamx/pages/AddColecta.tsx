@@ -36,7 +36,7 @@ export default function AddColecta({ navigation }: any) {
 
     return (
         <View style={s.container}>
-            <Pressable onPress={() => navigation.navigate("Homepage")}>
+            <Pressable onPress={() => navigation.replace("Homepage")}>
                 <Image source={require('../assets/goBack.png')} style={s.goBackImg} />
             </Pressable>
 
@@ -128,13 +128,13 @@ export default function AddColecta({ navigation }: any) {
                                     await addDoc(collection(db, "campaign"), nuevaColecta);
 
                                     Alert.alert(" Colecta creada correctamente");
-                                    navigation.navigate("Homepage");
+                                    navigation.replace("Homepage");
                                 } catch (error) {
                                     console.error("Error al crear la colecta:", error);
                                     Alert.alert("Error al crear la colecta");
 
                                 Alert.alert("Colecta creada correctamente");
-                                navigation.navigate("Homepage");
+                                navigation.replace("Homepage");
                                 }
                             }}
                         />

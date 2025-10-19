@@ -33,7 +33,7 @@ export default function Userpage({ navigation }: any) {
         await fetchUserData(user.uid);
       } else {
         setLoading(false);
-        navigation.navigate("Homepage");
+        navigation.replace("Homepage");
       }
     });
 
@@ -76,7 +76,7 @@ export default function Userpage({ navigation }: any) {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigation.navigate("Homepage");
+      navigation.replace("Homepage");
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -125,7 +125,7 @@ export default function Userpage({ navigation }: any) {
       {/* Header verde que ocupa toda la parte superior */}
       <View style={s.header}>
         {/* Botón de regreso */}
-        <Pressable onPress={() => navigation.navigate("Homepage")} style={s.goBackButton}>
+        <Pressable onPress={() => navigation.replace("Homepage")} style={s.goBackButton}>
           <Image
             source={require('../assets/goBack.png')}
             style={s.goBackImg}

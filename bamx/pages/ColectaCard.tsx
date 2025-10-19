@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import ProgressBar from 'react-native-progress-bar-horizontal';
 
   var s = require('../styles/ColectaCard')

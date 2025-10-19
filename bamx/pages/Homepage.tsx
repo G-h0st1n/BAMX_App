@@ -115,7 +115,7 @@ export default function Homepage({ navigation }: any) {
                 style={s.bg}
             >
             <View style={s.header}>
-                <Text style={s.headerText}>BAMX App</Text>
+                <Text style={s.headerText}>DONATON</Text>
 
                 {/* Show profile icon ONLY if user is logged in */}
                 {user && (
@@ -161,7 +161,7 @@ export default function Homepage({ navigation }: any) {
                         url={item.image_url}
                         onPress={() => {
                             const relatedProducts = products.filter((p) => p.campaignId === item.id);
-                            navigation.navigate("Colectapage", {campaign: item, products: relatedProducts})
+                            navigation.replace("Colectapage", {campaign: item, products: relatedProducts})
                         }}
                     />
                 )}
