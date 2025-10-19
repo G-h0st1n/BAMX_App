@@ -17,7 +17,10 @@ interface CampaingUserTotals {
 
 interface User {
   id: string;
-  username: string;
+  user: string;
+  anonymous?: boolean;
+  noLeaderboard?: boolean;
+  displayName?: string;
 }
 
 interface LeaderboardEntry {
@@ -58,7 +61,6 @@ export default function Colectapage({route, navigation}: any){
             const q = query(
                 collection(db, "campaign_user_totals"),
                 where("campaign_id", "==", campaignRef),
-                //where
             );
             const snapshot = await getDocs(q);
 
@@ -70,35 +72,36 @@ export default function Colectapage({route, navigation}: any){
                 };
             });
 
-            const leaderboardWithUsers = await Promise.all(
+            const rawLeaderboard: (LeaderboardEntry | null)[] = await Promise.all(
                 totals.map(async (t) => {
-                    let userData: User | null = null;
+                    if (!t.user_id) return null;
 
-                    let userRef;
-                    if (typeof t.user_id === "string") {
-                        userRef = doc(db, "users", t.user_id);
-                    } else {
-                        userRef = t.user_id;
-                    }
+                    const userDoc = await getDoc(t.user_id);
+                    if (!userDoc.exists()) return null;
 
-                    if (userRef) {
-                        const userDoc = await getDoc(userRef);
-                        if (userDoc.exists()) {
-                            const data = userDoc.data() as any;
-                            userData = { id: userDoc.id, username: data.user };
-                        }
-                    }
-                    //console.log("Fetched user:", userData); 
+                    const data = userDoc.data() as User;
+                    // ternary operator      condition      if tru if false new ternary 
+                    const displayName = data.noLeaderboard ? null : data.anonymous? "**********" : data.user
+                    if (!displayName) return null;
+
+                    const user: User = {
+                        ...data,
+                        id: userDoc.id,
+                        displayName,
+                    };
 
                     return {
                         id: t.id,
                         total_kg: t.total_kg,
-                        username: userData,
+                        username: user,
                     };
                 })
             );
+            
+            const leaderboardWithUsers: LeaderboardEntry[] = rawLeaderboard
+            .filter((entry): entry is LeaderboardEntry => entry !== null)
+            .sort((a, b) => b.total_kg - a.total_kg);
 
-            leaderboardWithUsers.sort((a, b) => b.total_kg - a.total_kg);
             setLeaderboard(leaderboardWithUsers);
         }
 
@@ -191,7 +194,7 @@ export default function Colectapage({route, navigation}: any){
                         renderItem={({item, index}) => 
                             <Leaderboard 
                                 rank={index + 1 }
-                                title={item.username?.username ?? "Unknown"} 
+                                title={item.username?.displayName ?? "Unknown"} 
                                 total_kg={item.total_kg} 
                             />
                         }
