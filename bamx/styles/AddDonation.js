@@ -38,12 +38,23 @@ var addStyle = React.StyleSheet.create({
     borderRadius:4,
     marginBottom:verticalScale(8)
   },
-  goBackImg:{
-    marginLeft:moderateScale(28),
-    bottom:verticalScale(-80),
-    width:moderateScale(25),
-    height:verticalScale(25)
+  goBackButton: {
+    position: 'absolute',
+    top: verticalScale(40),
+    left: verticalScale(15),
+    width: moderateScale(30),
+    height: verticalScale(30),
+    zIndex: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
+
+  goBackImg: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+
 });
 
 module.exports = addStyle;

@@ -5,7 +5,7 @@ import { BarChart } from "react-native-gifted-charts";
 import { collection, getDocs, DocumentReference } from "firebase/firestore";
 import { Button } from "@rneui/base";
 
-var s = require('../styles/AddColecta')
+var s = require('../styles/AddDonation')
 
 interface CampaignProduct {
   id: string;
@@ -16,7 +16,7 @@ interface CampaignProduct {
   minimum_kg: number; // goal of kgs
 }
 
-export default function AddColecta({route,navigation}:any){
+export default function AddDonation({route,navigation}:any){
     const { campaign } = route.params;
     const { products } = route.params as { products: CampaignProduct[] };
 
@@ -31,9 +31,11 @@ export default function AddColecta({route,navigation}:any){
                 source={require('../assets/add_bg.png')}
                 style={s.bg}
             >
-                <Pressable 
-                    onPress = {() => {
-                        navigation.navigate("Colectapage", {campaign:campaign,products:products})
+                <Pressable
+                    style={s.goBackButton}
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                    onPress={() => {
+                        navigation.navigate("Colectapage", { campaign, products });
                     }}
                 >
                     <Image

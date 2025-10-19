@@ -34,12 +34,22 @@ var colectaStyle = React.StyleSheet.create({
     width:moderateScale(25),
     height:verticalScale(25),
   },
-  addImg:{
-    width:moderateScale(160),
-    height:verticalScale(40),
-    marginLeft:verticalScale(160),
-    bottom:scale(-140)
+  addButton: {
+    alignSelf: 'flex-start',
+    marginLeft: verticalScale(160),       // mismo “x” que antes
+    transform: [{ translateY: verticalScale(140) }], // baja el hitbox
+    width: moderateScale(160),
+    height: verticalScale(40),
+    zIndex: 10,
   },
+
+  addImg: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+
+  },
+
   headerImg: {
     width: moderateScale(420),
     height:verticalScale(100),

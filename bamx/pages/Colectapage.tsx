@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { db } from "../App";
+import { db, auth } from "../App";
 import { View, Text, TouchableOpacity, Image, Pressable, FlatList, ImageBackground } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
-import { collection, getDocs, DocumentReference } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc, DocumentReference } from "firebase/firestore";
 import { Button } from "@rneui/base";
+
 
 var s = require('../styles/Colectapage')
 
@@ -54,6 +55,7 @@ export default function Colectapage({route, navigation}: any){
     // need to fetch user_product documents to get higher for leaderboard
     const [userProduct, setUserProduct] = useState<CampaingUserTotals[]>([]);
     const [loading, setLoading] = useState(true);
+    const [userRole, setUserRole] = useState<string | null>(null);
         
     useEffect(() => {
         async function fetchData(){
@@ -72,6 +74,20 @@ export default function Colectapage({route, navigation}: any){
             // filter through only campaing unser totals that reference the route params campaign
             const relatedUsers = userProdData.filter((u) => u.campaing_id === campaign.id); 
             setUserProduct(relatedUsers);
+
+            const currentUser = auth.currentUser;
+            if(currentUser){
+                const userDocRef = doc(db, "users", currentUser.uid);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if(userDocSnap.exists()) {
+                    const data = userDocSnap.data();
+                    setUserRole(data.role || null);
+                    console.log("user Role:",data.role);
+                } else {
+                    console.log("Didnt find user doc")
+                }
+            }
             console.log(userProduct);
 
             setLoading(false);
@@ -112,23 +128,29 @@ export default function Colectapage({route, navigation}: any){
 
 
                 </ImageBackground>
-                
+
                 <View style={s.header}>
-                    <Text style={s.headerText}>{campaign?.name ?? "Unknown campaign"}</Text>
-                    <Text style={s.subText}>{campaign.start?.toDate?.().toLocaleDateString() ?? "N/A"} - {campaign.end?.toDate?.().toLocaleDateString() ?? "N/A"}</Text>
+                    <Text style={s.headerText}>
+                        {campaign?.name ?? "Unknown campaign"}
+                    </Text>
+                    <Text style={s.subText}>
+                        {campaign.start?.toDate?.().toLocaleDateString() ?? "N/A"} - {campaign.end?.toDate?.().toLocaleDateString() ?? "N/A"}
+                    </Text>
 
-
+                    {(userRole === "voluntario" || userRole === "admin") && (
                     <Pressable
-                            onPress = {() => {
-                            navigation.navigate("AddColecta", {campaign: campaign,products:products})
-                        }}>
-
-                            <Image
-                                source={require('../assets/addButton.png')}
-                                style={s.addImg}
-                            />        
+                        style={s.addButton}
+                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        onPress={() =>
+                            navigation.navigate("AddDonation", { campaign, products })
+                        }
+                    >
+                        <Image
+                            source={require('../assets/addButton.png')}
+                            style={s.addImg}
+                        />
                     </Pressable>
-
+                        )}
                 </View>
 
                 <View style={s.content}>
