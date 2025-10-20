@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { db } from "../App";
 import { View, Text, TouchableOpacity, Image, Pressable, TextInput, ImageBackground } from "react-native";
 import { BarChart } from "react-native-gifted-charts";
-import { doc, getDocs, setDoc, updateDoc, increment, query, where, collection } from "firebase/firestore";
+import { doc, getDocs, getDoc, setDoc, updateDoc, increment, query, where, collection } from "firebase/firestore";
 import { Button } from "@rneui/base";
 
 var s = require('../styles/AddDonation')
@@ -91,54 +91,76 @@ export default function AddDonation({route,navigation}:any){
                                     alert("Completa todos los campos primero");
                                     return;
                                 }
-                                
-                                const campaignDoc = doc(db, "campaign", campaign.id);
-                                const userDoc = doc(db, "users", userID);
 
-                                const totalsQuery = query(
-                                    collection(db, "campaign_user_totals"),
-                                    where("campaign_id", "==", campaignDoc),
-                                    where("user_id", "==", userDoc)
-                                );
-                                
-                                const snapshot = await getDocs(totalsQuery);
-                                
-                                // update campaign product
-                                const matchedProduct = products.find(
-                                    (p) => p.product_name.toLowerCase() === donation.toLowerCase()
-                                );
+                                try {
+                                    const userDocRef = doc(db, "users", userID);
+                                    const userSnap = await getDoc(userDocRef);
 
-                                if (!matchedProduct) {
-                                    alert("No se encontró el producto para la donación.");
-                                    return;
-                                }
+                                    if (!userSnap.exists()) {
+                                        alert("El ID de usuario no existe en la base de datos");
+                                        return;
+                                    }
 
-                                const productDoc = doc(db, "campaign_products", matchedProduct.id);
 
-                                await updateDoc(productDoc, {
-                                    received_kg: increment(parseFloat(quantity)),
-                                });
+                                    const userData = userSnap.data();
+                                    // Ajusta el campo 'usuario' según tu estructura (puede ser 'nombre' o 'username')
+                                    if (userData.user?.toLowerCase() !== user.toLowerCase()) {
+                                        alert("El ID no corresponde al usuario ingresado.");
+                                        return;
+                                    }
 
-                                // create campaign user totals or update it
-                                if(!snapshot.empty){
-                                    const DocRef = snapshot.docs[0].ref;
-                                    await updateDoc(DocRef, {
-                                        total_kg: increment(parseFloat(quantity))
+
+                                    const campaignDoc = doc(db, "campaign", campaign.id);
+                                    const userDoc = doc(db, "users", userID);
+
+                                    const totalsQuery = query(
+                                        collection(db, "campaign_user_totals"),
+                                        where("campaign_id", "==", campaignDoc),
+                                        where("user_id", "==", userDoc)
+                                    );
+
+                                    const snapshot = await getDocs(totalsQuery);
+
+                                    // update campaign product
+                                    const matchedProduct = products.find(
+                                        (p) => p.product_name.toLowerCase() === donation.toLowerCase()
+                                    );
+
+                                    if (!matchedProduct) {
+                                        alert("No se encontró el producto para la donación.");
+                                        return;
+                                    }
+
+                                    const productDoc = doc(db, "campaign_products", matchedProduct.id);
+
+                                    await updateDoc(productDoc, {
+                                        received_kg: increment(parseFloat(quantity)),
                                     });
-                                } else{
-                                    await setDoc(doc(collection(db, "campaign_user_totals")), {
-                                        campaign_id: campaignDoc,
-                                        user_id: userDoc,
-                                        total_kg: parseFloat(quantity)
-                                    });
+
+                                    // create campaign user totals or update it
+                                    if (!snapshot.empty) {
+                                        const DocRef = snapshot.docs[0].ref;
+                                        await updateDoc(DocRef, {
+                                            total_kg: increment(parseFloat(quantity))
+                                        });
+                                    } else {
+                                        await setDoc(doc(collection(db, "campaign_user_totals")), {
+                                            campaign_id: campaignDoc,
+                                            user_id: userDoc,
+                                            total_kg: parseFloat(quantity)
+                                        });
+                                    }
+                                    alert("Donación registrada");
+
+                                    setUser("");
+                                    setUserID("");
+                                    setDonation("");
+                                    setQuantity("");
+                                    navigation.replace("Homepage");
+                                } catch (error) {
+                                    console.error(error);
+                                    alert("Ocurrió un error al registrar la donación.");
                                 }
-                                alert("Donación registrada");
-                                
-                                setUser("");
-                                setUserID("");
-                                setDonation("");
-                                setQuantity("");
-                                navigation.replace("Homepage");
                             }}
                         />                               
                     </View>
